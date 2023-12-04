@@ -56,6 +56,17 @@ public class SelectionBoxScript : MonoBehaviour
                 Mathf.Abs(currentMousePos.y - startPos.y)
             );
         }
+
+        // 取消選取物體
+        if (Input.GetMouseButtonDown(0) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)))
+        {
+            GameObject clickedObject = GetClickedObject();
+            if (clickedObject != null && selectedObjects.Contains(clickedObject))
+            {
+                selectedObjects.Remove(clickedObject);
+            }
+        }
+        
     }
 
     private void OnGUI()
@@ -114,7 +125,7 @@ public class SelectionBoxScript : MonoBehaviour
         Color[] pixels = new Color[width * height];
         for (int i = 0; i < pixels.Length; i++)
         {
-           pixels[i] = color;
+            pixels[i] = color;
         }
 
         Texture2D texture = new Texture2D(width, height);
@@ -146,5 +157,16 @@ public class SelectionBoxScript : MonoBehaviour
 
         // 如果物體沒有Renderer和Collider組件，則返回空的矩形
         return new Rect();
+    }
+
+    private GameObject GetClickedObject()
+    {
+        // 獲取滑鼠點擊的物體
+        RaycastHit2D hit = Physics2D.Raycast(GetWorldMousePosition(), Vector2.zero);
+        if (hit.collider != null)
+        {
+            return hit.collider.gameObject;
+        }
+        return null;
     }
 }
