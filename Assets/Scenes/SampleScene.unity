@@ -433,8 +433,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numSoldier: 0
   teamID: 0
-  timer: 0
   cdTime: 0
+  timer: 0
   numText: {fileID: 1597564454}
 --- !u!212 &1116255749
 SpriteRenderer:
@@ -884,6 +884,7 @@ GameObject:
   - component: {fileID: 1791478643}
   - component: {fileID: 1791478642}
   - component: {fileID: 1791478641}
+  - component: {fileID: 1791478645}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -974,6 +975,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1791478645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791478640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ec1d4c6b2228e4fb81fe8b0e5deec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2059394335
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35909df2f8e5b24db927b6b4a6455fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedHint: {fileID: 300898737}
 --- !u!1001 &3580809709163246351
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1171,6 +1185,6 @@ SceneRoots:
   - {fileID: 1116255750}
   - {fileID: 3580809709163246351}
   - {fileID: 1023215358}
+  - {fileID: 1791478644}
   - {fileID: 1262769769}
   - {fileID: 2059394338}
-  - {fileID: 1791478644}
