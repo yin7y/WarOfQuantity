@@ -53,17 +53,13 @@ public class ObjectSelection : MonoBehaviour
                 break;
             case SelectionState.FirstSelected:
                 selectedHint.SetActive(false);
-                Debug.Log("原先選中：" + firstSelectedObject.name);
-                Debug.Log("第二個選中：" + selectedObject.name);
-                 MainCity firstCity = firstSelectedObject.GetComponent<MainCity>();
-                // if(firstCity != null)
-                    firstCity.SoldierGenerator(10, 0.5f, selectedObject.transform.position);
+                
+                MainCity firstCity = firstSelectedObject.GetComponent<MainCity>();
+                firstCity.SoldierGenerator(99, selectedObject);
+                
                 Debug.Log("處理完畢");
                 // 處理完所有事項後取消選取
                 DeselectObject();
-                break;
-            case SelectionState.SecondSelected:
-                // 如果已經選擇了第二個物體，則不執行任何操作
                 break;
         }
     }
