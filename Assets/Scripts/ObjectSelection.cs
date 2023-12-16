@@ -4,87 +4,88 @@ using UnityEngine;
 
 public class ObjectSelection : MonoBehaviour
 {
-    private GameObject selectedObject; // 目前被選中的物體
+    GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體
     [SerializeField] GameObject selectedHint;
-    private void Start() {
-        
+    SelectionState currentState = SelectionState.None;
+    enum SelectionState{
+        None,
+        FirstSelected,
+        SecondSelected
     }
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
+    
+    private void Update(){
+        if (Input.GetMouseButtonDown(0)){
             // 射線檢測
             Vector2 mousePosition = GetWorldMousePosition();
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
-            if (hit.collider != null)
-            {
+            if (hit.collider != null){
                 GameObject hitObject = hit.collider.gameObject;
 
                 // 檢查是否點擊到新的物體
-                if (hitObject != selectedObject)
-                {
-                    // 選擇新的物體
-                    
+                if (hitObject != selectedObject){
+                    // 選擇新的物體           
                     SelectObject(hitObject);
-                }
-                else
-                {
+                }else{
                     // 取消選擇
                     DeselectObject();
                 }
-            }
-            else
-            {
+            }else{
                 // 沒有點擊到物體，取消選擇
                 DeselectObject();
             }
         }
     }
 
-    private void SelectObject(GameObject obj)
-    {
-        // 取消之前選中的物體
-        DeselectObject();
+    private void SelectObject(GameObject obj){
         // 選擇新的物體
         selectedObject = obj;
         // 在這裡可以執行選擇物體後的操作，比如變色、顯示選中效果等
         // 取得被選中obj的MainCity腳本
-        MainCity mainCity = obj.GetComponent<MainCity>();
-        
-        if(mainCity != null){
-            selectedHint.SetActive(true);   // TOOO 根據teamID是否相同 否則false
+        MainCity newCity = obj.GetComponent<MainCity>();
+       
+        switch (currentState){
+            case SelectionState.None:
+                selectedHint.SetActive(true);
+                firstSelectedObject = selectedObject; // 記錄第一次選中的物體
+                Debug.Log("選中物體：" + selectedObject.name);
+                currentState = SelectionState.FirstSelected;
+                break;
+            case SelectionState.FirstSelected:
+                selectedHint.SetActive(false);
+                Debug.Log("原先選中：" + firstSelectedObject.name);
+                Debug.Log("第二個選中：" + selectedObject.name);
+                 MainCity firstCity = firstSelectedObject.GetComponent<MainCity>();
+                // if(firstCity != null)
+                    firstCity.SoldierGenerator(10, 0.5f, selectedObject.transform.position);
+                Debug.Log("處理完畢");
+                // 處理完所有事項後取消選取
+                DeselectObject();
+                break;
+            case SelectionState.SecondSelected:
+                // 如果已經選擇了第二個物體，則不執行任何操作
+                break;
         }
-        Debug.Log("選中物體：" + selectedObject.name);
     }
 
-    private void DeselectObject()
-    {
-        if (selectedObject != null)
-        {
+    private void DeselectObject(){
+        if (selectedObject != null){
             // 取消選擇物體
             // 在這裡可以撤銷選擇物體後的操作，比如恢復顏色、隱藏選中效果等
             selectedHint.SetActive(false);
             Debug.Log("取消選中物體：" + selectedObject.name);
             selectedObject = null;
         }
+        currentState = SelectionState.None;
+        firstSelectedObject = null; // 清空第一次選中的物體
     }
-    private Vector2 GetWorldMousePosition()
-    {
+    
+    
+    
+    private Vector2 GetWorldMousePosition(){
         // 獲取滑鼠在世界座標中的位置
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -Camera.main.transform.position.z;
         return Camera.main.ScreenToWorldPoint(mousePos);
     }
-    private GameObject GetClickedObject()
-    {
-        // 獲取滑鼠點擊的物體
-        RaycastHit2D hit = Physics2D.Raycast(GetWorldMousePosition(), Vector2.zero);
-        if (hit.collider != null)
-        {
-            return hit.collider.gameObject;
-        }
-        return null;
-    }
 }
-

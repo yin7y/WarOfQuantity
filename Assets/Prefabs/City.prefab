@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2668553534976644903}
+  - {fileID: 5940248244598699898}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5542449876873188280
@@ -100,9 +101,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numSoldier: 0
+  teamID: 1
+  numCdTime: 0
   timer: 0
-  cdTime: 0
+  numTimer: 0
   numText: {fileID: 416368449773419625}
+  soldierPrefab: {fileID: 6683500674719872303, guid: 1fafd858f164a2f45b089ea254e87c55, type: 3}
+  soldiersParent: {fileID: 5940248244598699898}
 --- !u!58 &8456796934091220298
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -138,6 +143,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!1 &7822332085590095393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5940248244598699898}
+  m_Layer: 0
+  m_Name: Soldiers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5940248244598699898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7822332085590095393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7330041530492404085}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8866382319784222715
 GameObject:
   m_ObjectHideFlags: 0
