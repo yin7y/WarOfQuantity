@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ObjectSelection : MonoBehaviour
 {
-    GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體
-    [SerializeField] GameObject selectedHint;
+    GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體，原先選中的物體
+    MainCity sameCity;
+    [SerializeField] GameObject selectedHint;  // 選擇提示
     SelectionState currentState = SelectionState.None;
     enum SelectionState{
         None,
-        FirstSelected,
-        SecondSelected
+        FirstSelected
     }
     
     private void Update(){
@@ -42,7 +42,7 @@ public class ObjectSelection : MonoBehaviour
         selectedObject = obj;
         // 在這裡可以執行選擇物體後的操作，比如變色、顯示選中效果等
         // 取得被選中obj的MainCity腳本
-        MainCity newCity = obj.GetComponent<MainCity>();
+        
        
         switch (currentState){
             case SelectionState.None:
@@ -56,6 +56,8 @@ public class ObjectSelection : MonoBehaviour
                 
                 MainCity firstCity = firstSelectedObject.GetComponent<MainCity>();
                 firstCity.SoldierGenerator(99, selectedObject);
+                // TDOO不可再選中同樣的城市發兵
+                
                 
                 Debug.Log("處理完畢");
                 // 處理完所有事項後取消選取
