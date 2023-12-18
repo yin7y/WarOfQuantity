@@ -15,14 +15,14 @@ public class MainCity : MonoBehaviour
     [SerializeField] TextMeshPro numText;
     [SerializeField] GameObject soldierPrefab;
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
-
+    
     public List<GameObject> soldiers = new List<GameObject>(); // 士兵列表
-
+    
     void Start()
     {
         num = 0;
         numCdTime = 0.5f;
-        soldierCdTime = 0.1f;
+        soldierCdTime = 0.3f;
         numText.text = num.ToString();
         isAtking = false;
         isDefending = false;
@@ -85,6 +85,13 @@ public class MainCity : MonoBehaviour
             }
         isAtking = false;
     }
+    
+    public void SetTeamID(int id)
+    {
+        teamID = id;
+        Debug.Log(gameObject.name + "'s teamID set to: " + teamID);
+    }
+    
     public void GetDamage(int damage){
         num -= damage;
     }

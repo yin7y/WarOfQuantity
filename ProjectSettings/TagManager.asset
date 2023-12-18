@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: City
+    uniqueID: 169263697
+    locked: 0
+  - name: Soldier
+    uniqueID: 553356917
+    locked: 0
+  - name: BackGround
+    uniqueID: 3309705441
+    locked: 0
