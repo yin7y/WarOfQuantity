@@ -5,12 +5,10 @@ public class CityGenerator : MonoBehaviour
     public GameObject cityPrefab;
     public int numberOfCities = 5;
     public float cityMinDistance = 20f;
-
-    void Start()
-    {
+    public int mapRange;
+    void Awake() {
         GenerateCities();
     }
-
     void GenerateCities()
     {
         for (int i = 0; i < numberOfCities; i++)
@@ -19,11 +17,11 @@ public class CityGenerator : MonoBehaviour
             GameObject city = Instantiate(cityPrefab, randomCityPosition, Quaternion.identity);
 
             // 分配隊伍teamID給城市
-            int teamID = (i == 0) ? 0 : Random.Range(1, 4); // 玩家陣營teamID為0，其他城市隨機分配1到3之間的teamID
+            int teamID = (i == 0) ? 0 : Random.Range(1, numberOfCities-1); // 玩家陣營teamID為0，其他城市隨機分配1到3之間的teamID
             city.GetComponent<MainCity>().SetTeamID(teamID);
 
             // 分配隨機顏色給城市
-            Color randomColor = Random.ColorHSV(0f, 1f, 0.8f, 1f, 0.8f, 1f); // 控制亮色範圍
+            Color randomColor = Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.5f, 1f); // 控制亮色範圍
             city.GetComponent<SpriteRenderer>().color = randomColor;
         }
     }
@@ -35,7 +33,7 @@ public class CityGenerator : MonoBehaviour
 
         while (!isValidPosition)
         {
-            randomPosition = new Vector3(Random.Range(-100f, 100f), Random.Range(-100f, 100f), 0);
+            randomPosition = new Vector3(Random.Range(-mapRange, mapRange), Random.Range(-mapRange, mapRange), 0);
 
             // 檢查與其他城市的距離是否足夠
             isValidPosition = true;

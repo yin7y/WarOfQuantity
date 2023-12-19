@@ -7,9 +7,10 @@ using UnityEngine.UIElements;
 
 public class MainCity : MonoBehaviour
 {
-    public int num, teamID;
+    int num, numMax;
     public float numCdTime, soldierCdTime;
     public bool isDefending, canDefendingOther;
+    int teamID;
     bool isAtking;
     [SerializeField] float timer;
     [SerializeField] TextMeshPro numText;
@@ -31,6 +32,8 @@ public class MainCity : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
+        if(num > numMax)
+            num = numMax;
         if(isDefending){   // 城市正在防守的話，數量產能減半
             if (timer >= numCdTime){
                 num++;
@@ -90,6 +93,9 @@ public class MainCity : MonoBehaviour
     {
         teamID = id;
         Debug.Log(gameObject.name + "'s teamID set to: " + teamID);
+    }
+    public int GetTeamID(){
+        return teamID;
     }
     
     public void GetDamage(int damage){

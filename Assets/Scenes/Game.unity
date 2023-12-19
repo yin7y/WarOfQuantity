@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -288,12 +289,31 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -80}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc417bede87c844eae653ba76812c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 50
+  dragSpeed: 30
+  edgeScrollSpeed: 20
+  zoomSpeed: 200
+  minZoom: -20
+  maxZoom: -300
+  edgeBoundary: 50
 --- !u!1 &1262769766
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,8 +748,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityPrefab: {fileID: 4189621655167359796, guid: ce5fef54823f1cb4f809bfea49220c2d, type: 3}
-  numberOfCities: 20
+  numberOfCities: 100
   cityMinDistance: 20
+  mapRange: 300
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -738,5 +759,5 @@ SceneRoots:
   - {fileID: 1432584295}
   - {fileID: 1791478644}
   - {fileID: 1262769769}
-  - {fileID: 2059394338}
   - {fileID: 1364884366}
+  - {fileID: 2059394338}
