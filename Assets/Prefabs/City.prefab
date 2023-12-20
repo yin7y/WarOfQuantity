@@ -106,7 +106,7 @@ MonoBehaviour:
   canDefendingOther: 0
   timer: 0
   numText: {fileID: 416368449773419625}
-  soldierPrefab: {fileID: 6683500674719872303, guid: 1fafd858f164a2f45b089ea254e87c55, type: 3}
+  soldierPrefab: {fileID: 2052720494849717165, guid: ccb7f8a17b6b09744bb95203ae6579f6, type: 3}
   soldiersParent: {fileID: 5940248244598699898}
   soldiers: []
 --- !u!58 &8456796934091220298

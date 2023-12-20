@@ -6,23 +6,35 @@ public class CityGenerator : MonoBehaviour
     public int numberOfCities = 5;
     public float cityMinDistance = 20f;
     public int mapRange;
-    void Awake() {
+
+    void Start()
+    {
         GenerateCities();
     }
+
     void GenerateCities()
     {
+        // 建立 Cities 物件
+        GameObject citiesObject = new("MainCities");
+
         for (int i = 0; i < numberOfCities; i++)
         {
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
             GameObject city = Instantiate(cityPrefab, randomCityPosition, Quaternion.identity);
 
-            // 分配隊伍teamID給城市
-            int teamID = (i == 0) ? 0 : Random.Range(1, numberOfCities-1); // 玩家陣營teamID為0，其他城市隨機分配1到3之間的teamID
+            // 分配隊伍 teamID 給城市
+            int teamID = (i == 0) ? 0 : i; // 玩家陣營 teamID 為 0，其他城市隨機分配 1 到 3 之間的 teamID
             city.GetComponent<MainCity>().SetTeamID(teamID);
 
             // 分配隨機顏色給城市
             Color randomColor = Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.5f, 1f); // 控制亮色範圍
             city.GetComponent<SpriteRenderer>().color = randomColor;
+
+            // 將城市設定為 Cities 物件的子物件
+            city.transform.SetParent(citiesObject.transform);
+
+            // 重新命名城市物件
+            city.name = "MainCity" + teamID;
         }
     }
 
