@@ -6,7 +6,7 @@ using UnityEngine;
 public class Soldier : MonoBehaviour
 {
     private int teamID;
-    private GameObject destination, saveSelected;
+    private GameObject destination;
     private float moveSpeed = 20f;
     MainCity mainCity;
 
@@ -15,6 +15,7 @@ public class Soldier : MonoBehaviour
         mainCity = transform.parent.gameObject.GetComponentInParent<MainCity>();
         gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
         // saveSelected = mainCity.ta 修BU  士兵遺失終點
+        destination = mainCity.GetTargetCity();
     }
     public void SetTeamID(int id)
     {
