@@ -26,7 +26,7 @@ public class CameraMovement : MonoBehaviour
         }
         HandleKeyboardMovement();
         HandleMouseDrag();
-        HandleEdgeScroll();
+        // HandleEdgeScroll();
         HandleZoom();
     }
 

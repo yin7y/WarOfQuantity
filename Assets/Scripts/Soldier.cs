@@ -11,19 +11,16 @@ public class Soldier : MonoBehaviour
     MainCity mainCity;
 
     
-    private void Start() {
+    private void Start(){
         mainCity = transform.parent.gameObject.GetComponentInParent<MainCity>();
         gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
-        // saveSelected = mainCity.ta 修BU  士兵遺失終點
-        destination = mainCity.GetTargetCity();
+        // destination = mainCity.GetTargetCity(); 保留兵  隨時可更換目標型
     }
-    public void SetTeamID(int id)
-    {
+    public void SetTeamID(int id){
         teamID = id;
     }
 
-    public void MoveToDestination(GameObject target)
-    {
+    public void MoveToDestination(GameObject target){
         destination = target;
     }
 
@@ -35,8 +32,7 @@ public class Soldier : MonoBehaviour
             (transform.position, destination.transform.position, moveSpeed * Time.deltaTime);
 
             // 檢查是否到達目的地
-            if (transform.position == destination.transform.position)
-            {
+            if (transform.position == destination.transform.position){
                 // 到達目的地後執行任何必要的操作
                 // Debug.Log("士兵到達目的地：" + destination);
                 MainCity targetCity = destination.GetComponent<MainCity>();
@@ -48,8 +44,13 @@ public class Soldier : MonoBehaviour
                 // mainCity.soldiers.Remove(gameObject);
                 // Debug.Log("移除列表兵號 " + gameObject.name);
                 // print(mainCity.soldiers.Count);
-                if(transform.parent.childCount <= 1){
+                if(transform.parent.childCount < 2){
                     targetCity.isDefending = false;
+                }
+                if(targetCity.GetNum() <= 0){
+                    targetCity.SetNum(0);
+                    targetCity.SetTeamID(teamID);
+                    targetCity.gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
                 }
                 // 銷毀士兵物件
                 Destroy(gameObject);
