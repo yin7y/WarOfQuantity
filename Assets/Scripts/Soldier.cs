@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Scripting;
 using UnityEngine;
 
 public class Soldier : MonoBehaviour
@@ -38,7 +37,7 @@ public class Soldier : MonoBehaviour
                 MainCity targetCity = destination.GetComponent<MainCity>();
                 if(targetCity.GetTeamID() != mainCity.GetTeamID())
                     targetCity.GetDamage(1);
-                else
+                else if(targetCity.GetTeamID() == mainCity.GetTeamID())
                     targetCity.GetDamage(-1);
                     
                 // mainCity.soldiers.Remove(gameObject);
@@ -47,10 +46,10 @@ public class Soldier : MonoBehaviour
                 if(transform.parent.childCount < 2){
                     targetCity.isDefending = false;
                 }
-                if(targetCity.GetNum() <= 0){
+                if(targetCity.GetNum() < 0){
                     targetCity.SetNum(0);
                     targetCity.SetTeamID(teamID);
-                    targetCity.gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
+                    targetCity.gameObject.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<SpriteRenderer>().color;
                 }
                 // 銷毀士兵物件
                 Destroy(gameObject);

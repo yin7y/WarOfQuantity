@@ -6,7 +6,7 @@ public class ObjectSelection : MonoBehaviour
 {
     GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體，原先選中的物體    MainCity sameCity;
     [SerializeField] GameObject selectedHint;  // 選擇提示
-    
+    [SerializeField] bool debugMode;
     SelectionState currentState = SelectionState.None;
     enum SelectionState
     {
@@ -41,12 +41,17 @@ public class ObjectSelection : MonoBehaviour
 
         switch (currentState){
             case SelectionState.None:
-                // if(selectedObject.GetComponent<MainCity>().GetTeamID() == 0){
+                if(debugMode){
                     selectedHint.SetActive(true);
                     firstSelectedObject = selectedObject;
                     Debug.Log(" =========== 選中物體：" + selectedObject.name + " ===========");
                     currentState = SelectionState.FirstSelected;
-                // }
+                }else if(selectedObject.GetComponent<MainCity>().GetTeamID() == 0){
+                    selectedHint.SetActive(true);
+                    firstSelectedObject = selectedObject;
+                    Debug.Log(" =========== 選中物體：" + selectedObject.name + " ===========");
+                    currentState = SelectionState.FirstSelected;
+                }
                 break;
             case SelectionState.FirstSelected:
                 selectedHint.SetActive(false);
@@ -63,11 +68,16 @@ public class ObjectSelection : MonoBehaviour
     }
 
     private void DeselectObject(){
-        if (selectedObject != null /*&& selectedObject.GetComponent<MainCity>().GetTeamID() == 0*/){
-            selectedHint.SetActive(false);
-            Debug.Log("取消選中物體：" + selectedObject.name);
-            selectedObject = null;
-        }
+        if(selectedObject != null)
+            if(debugMode){
+                selectedHint.SetActive(false);
+                Debug.Log("取消選中物體：" + selectedObject.name);
+                selectedObject = null;
+            }else if (selectedObject.GetComponent<MainCity>().GetTeamID() == 0){
+                selectedHint.SetActive(false);
+                Debug.Log("取消選中物體：" + selectedObject.name);
+                selectedObject = null;
+            }
         currentState = SelectionState.None;
         firstSelectedObject = null;
     }

@@ -28,33 +28,33 @@ public class MainCity : MonoBehaviour
         isAtking = false;
         isDefending = false;
         numMax = 500;
+        StartCoroutine(AutoAttackAI());
     }
 
-    void Update()
-    {
+    void Update(){
         timer += Time.deltaTime;
-        if(num <= 0)
+        if(num < 0)
             num = 0;
         if(num < numMax){
-            if(isDefending){   // 城市正在防守的話，數量產能減半TODO
+            if(isDefending){   // 城市正在接收的話，數量產能減半TODO
                 if (timer >= numCdTime * 2){
                     num++;
-                    numText.text = num.ToString();
                     timer = 0;
                 }
             }else if(isAtking){
-                numText.text = num.ToString();
                 timer = 0;
             }else if (timer >= numCdTime){
                 num++;
-                numText.text = num.ToString();
                 timer = 0;
-            }
+            }            
+        }else{
+            num = numMax;
         }
+        numText.text = num.ToString();
+        
         myAllCityCount = CountAllCities();
         UI ui = FindObjectOfType<UI>();
-        if (ui != null)
-        {
+        if (ui != null){
             ui.UpdateCityCount(myAllCityCount);
         }
     }
@@ -81,9 +81,6 @@ public class MainCity : MonoBehaviour
                     // 將士兵設定為指定父物件的子物體
                     soldier.transform.SetParent(soldiersParent);
 
-                    // 將士兵加入士兵列表
-                    // soldiers.Add(soldier);
-
                     // 獲取士兵的 Soldier 腳本參考
                     Soldier soldierScript = soldier.GetComponent<Soldier>();
                     if (soldierScript != null)
@@ -91,8 +88,8 @@ public class MainCity : MonoBehaviour
                         soldierScript.MoveToDestination(target); // 移動士兵到指定的目的地
                         isAtking = true;
                     }
-                    MainCity targetCity = target.GetComponent<MainCity>();
-                    targetCity.isDefending = true; // 指定城正在被發兵
+                    MainCity atkTargetCity = target.GetComponent<MainCity>();
+                    atkTargetCity.isDefending = true; // 指定城正在被發兵
                     
                     yield return new WaitForSeconds(soldierCdTime);
                 }
@@ -100,37 +97,76 @@ public class MainCity : MonoBehaviour
         isAtking = false;
     }
     
-    public void SetTeamID(int id){
-        teamID = id;
-        // Debug.Log(gameObject.name + "'s teamID set to: " + teamID);
-    }
+    public void SetTeamID(int id) => teamID = id;
+    public void SetNum(int _num) => num = _num;
+    public void GetDamage(int damage) => num -= damage;
     public int GetTeamID(){
         return teamID;
-    }
-    public void GetDamage(int damage){
-        num -= damage;
     }
     public int GetNum(){
         return num;
     }
-    public void SetNum(int _num){
-        num = _num;
-    }
-    int CountAllCities()
-    {
+  
+    int CountAllCities(){
         int countCities = 0;
         MainCity[] cities = FindObjectsOfType<MainCity>();
-        foreach (MainCity city in cities)
-        {
-            if (city.teamID == 0)
-            {
+        foreach (MainCity city in cities){
+            if (city.teamID == 0){
                 countCities++;
             }
         }
         return countCities;
     }
     
-    public GameObject GetTargetCity(){
-        return targetCity;
+    // public GameObject GetTargetCity(){
+    //     return targetCity;
+    // }
+    
+    IEnumerator AutoAttackAI()
+    {
+        while (true)
+        {
+            if(teamID == 0)
+                break;
+            // 檢查是否有目標城市
+            if (targetCity == null || targetCity.GetComponent<MainCity>().teamID == teamID)
+            {
+                // 尋找附近的敵方城市
+                MainCity[] cities = FindObjectsOfType<MainCity>();
+                List<MainCity> enemyCities = new List<MainCity>();
+                foreach (MainCity city in cities)
+                {
+                    if (city.teamID != teamID)
+                    {
+                        enemyCities.Add(city);
+                    }
+                }
+
+                // 從敵方城市中隨機選擇一個作為目標
+                if (enemyCities.Count > 0)
+                {
+                    int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
+                    targetCity = enemyCities[randomIndex].gameObject;
+                }
+            }
+
+            // 如果有目標城市，則發兵
+            if (targetCity != null)
+            {
+                // 計算發兵數量
+                int count = Mathf.Min(num, num-1);
+
+                // 生成士兵
+                SoldierGenerator(count, targetCity);
+
+                // 等待一段時間再進行下一次攻擊
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1, 60));
+            }
+            else
+            {
+                // 如果沒有目標城市，則等待一段時間再重新尋找目標
+                yield return new WaitForSeconds(10f); // 每10秒重新尋找目標城市
+            }
+        }
     }
 }

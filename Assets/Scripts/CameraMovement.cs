@@ -12,12 +12,7 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 dragOrigin;
     private bool isDragging = false;
-
-    void Start()
-    {
-        FindAndFocusMainCity();
-    }
-
+    
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.F)){
@@ -30,7 +25,7 @@ public class CameraMovement : MonoBehaviour
         HandleZoom();
     }
 
-    void FindAndFocusMainCity()
+    public void FindAndFocusMainCity()
     {
         MainCity[] mainCities = GameObject.FindObjectsOfType<MainCity>();
 

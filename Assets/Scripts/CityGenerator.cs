@@ -6,10 +6,12 @@ public class CityGenerator : MonoBehaviour
     public int numberOfCities = 5;
     public float cityMinDistance = 20f;
     public int mapRange;
+    [SerializeField] CameraMovement myCamera;
 
-    void Start()
+    void Awake()
     {
         GenerateCities();
+        myCamera.FindAndFocusMainCity();
     }
 
     void GenerateCities()
