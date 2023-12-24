@@ -15,6 +15,7 @@ public class MainCity : MonoBehaviour
     [SerializeField] TextMeshPro numText;
     [SerializeField] GameObject soldierPrefab, targetCity; 
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
+    UI ui;
     
     int myAllCityCount;
     // public List<GameObject> soldiers = new(); // 士兵列表
@@ -28,15 +29,16 @@ public class MainCity : MonoBehaviour
         isAtking = false;
         isDefending = false;
         numMax = 500;
+        ui = FindObjectOfType<UI>();
         StartCoroutine(AutoAttackAI());
     }
-
+    
     void Update(){
         timer += Time.deltaTime;
         if(num < 0)
             num = 0;
         if(num < numMax){
-            if(isDefending){   // 城市正在接收的話，數量產能減半TODO
+            if(isDefending){   // 城市正在接收的話，數量產能減半
                 if (timer >= numCdTime * 2){
                     num++;
                     timer = 0;
@@ -53,7 +55,7 @@ public class MainCity : MonoBehaviour
         numText.text = num.ToString();
         
         myAllCityCount = CountAllCities();
-        UI ui = FindObjectOfType<UI>();
+        
         if (ui != null){
             ui.UpdateCityCount(myAllCityCount);
         }
@@ -126,22 +128,21 @@ public class MainCity : MonoBehaviour
     {
         while (true)
         {
-            if(teamID == 0)
-                break;
-            // 檢查是否有目標城市
-            if (targetCity == null || targetCity.GetComponent<MainCity>().teamID == teamID)
+            MainCity[] cities = FindObjectsOfType<MainCity>();
+            List<MainCity> enemyCities = new List<MainCity>();
+            foreach (MainCity city in cities)
             {
-                // 尋找附近的敵方城市
-                MainCity[] cities = FindObjectsOfType<MainCity>();
-                List<MainCity> enemyCities = new List<MainCity>();
-                foreach (MainCity city in cities)
+                if (city.teamID != teamID)
                 {
-                    if (city.teamID != teamID)
-                    {
-                        enemyCities.Add(city);
-                    }
+                    enemyCities.Add(city);
                 }
+            }
+            if (teamID == 0)
+                break;
 
+            // 檢查是否有目標城市
+            if (targetCity == null)
+            {
                 // 從敵方城市中隨機選擇一個作為目標
                 if (enemyCities.Count > 0)
                 {
@@ -154,7 +155,7 @@ public class MainCity : MonoBehaviour
             if (targetCity != null)
             {
                 // 計算發兵數量
-                int count = Mathf.Min(num, num-1);
+                int count = num - 1;
 
                 // 生成士兵
                 SoldierGenerator(count, targetCity);
