@@ -29,7 +29,7 @@ public class ObjectSelection : MonoBehaviour
 
         if (hit.collider != null){
             GameObject hitObject = hit.collider.gameObject;
-            if (hitObject != selectedObject){
+            if (hitObject != selectedObject && hitObject.CompareTag("City")){
                 SelectObject(hitObject);
             }else{
                 DeselectObject();
@@ -66,7 +66,7 @@ public class ObjectSelection : MonoBehaviour
 
     private void HandleSelection(){
         MainCity firstCity = firstSelectedObject.GetComponent<MainCity>();
-        firstCity.SoldierGenerator(1000, selectedObject);
+        firstCity.SoldierGenerator(firstCity.GetNum() - 1, selectedObject);
         Debug.Log(" > 處理完畢 <");
     }
 
@@ -81,8 +81,8 @@ public class ObjectSelection : MonoBehaviour
                 Debug.Log("取消選中物體：" + selectedObject.name);
             }
         selectedObject = null;
-        currentState = SelectionState.None;
         firstSelectedObject = null;
+        currentState = SelectionState.None;        
     }
 
     private Vector2 GetWorldMousePosition(){

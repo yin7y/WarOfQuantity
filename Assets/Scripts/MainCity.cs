@@ -10,6 +10,7 @@ public class MainCity : MonoBehaviour
     [SerializeField] int num, numMax, teamID;
     public float numCdTime, soldierCdTime;
     public bool isDefending;
+    int setCount;
     bool isAtking;
     [SerializeField] float timer;
     [SerializeField] TextMeshPro numText;
@@ -36,15 +37,15 @@ public class MainCity : MonoBehaviour
     void Update(){
         timer += Time.deltaTime;
         if(num < 0)
-            num = 0;
+            num += -num;
         if(num < numMax){
-            if(isDefending){   // 城市正在接收的話，數量產能減半
+            if(isAtking){
+                timer = 0;
+            }else if(isDefending){   // 城市正在接收的話，數量產能減半
                 if (timer >= numCdTime * 2){
                     num++;
                     timer = 0;
                 }
-            }else if(isAtking){
-                timer = 0;
             }else if (timer >= numCdTime){
                 num++;
                 timer = 0;
@@ -69,9 +70,9 @@ public class MainCity : MonoBehaviour
     private IEnumerator GenerateSoldiers(int count, GameObject target){
         print(" " + gameObject.name + " >> 發兵 >> " + target.name);
         targetCity = target;
-        int setCount = count;
-        if(setCount >= num)
-            setCount = num - 1;
+        setCount = count;
+        // if(setCount >= num)
+            // setCount = num - 1;
         if(gameObject.GetComponent<MainCity>().isAtking == false)
             for (int i = 0; i < setCount; i++){                 
                 if(num > 1){
@@ -90,8 +91,7 @@ public class MainCity : MonoBehaviour
                         soldierScript.MoveToDestination(target); // 移動士兵到指定的目的地
                         isAtking = true;
                     }
-                    MainCity atkTargetCity = target.GetComponent<MainCity>();
-                    atkTargetCity.isDefending = true; // 指定城正在被發兵
+                    target.GetComponent<MainCity>().isDefending = true; // 指定城正在被發兵
                     
                     yield return new WaitForSeconds(soldierCdTime);
                 }
