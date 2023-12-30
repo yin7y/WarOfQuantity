@@ -24,8 +24,8 @@ public class MainCity : MonoBehaviour
     void Start()
     {
         num = 0;
-        numCdTime = 0.1f;
-        soldierCdTime = 0.05f;
+        numCdTime = 0.4f;
+        soldierCdTime = 0.15f;
         numText.text = num.ToString();
         isAtking = false;
         isDefending = false;
@@ -68,7 +68,7 @@ public class MainCity : MonoBehaviour
     }
 
     private IEnumerator GenerateSoldiers(int count, GameObject target){
-        print(" " + gameObject.name + " >> 發兵 >> " + target.name);
+        // print(" " + gameObject.name + " >> 發兵 >> " + target.name);
         targetCity = target;
         setCount = count;
         // if(setCount >= num)
@@ -96,6 +96,7 @@ public class MainCity : MonoBehaviour
                     yield return new WaitForSeconds(soldierCdTime);
                 }
             }
+            target.GetComponent<MainCity>().isDefending = false;
         isAtking = false;
     }
     
@@ -120,14 +121,14 @@ public class MainCity : MonoBehaviour
         return countCities;
     }
     
-    // public GameObject GetTargetCity(){
-    //     return targetCity;
-    // }
-    
     IEnumerator AutoAttackAI()
     {
         while (true)
         {
+            if (teamID == 0){
+                yield break;
+            }                
+                
             MainCity[] cities = FindObjectsOfType<MainCity>();
             List<MainCity> enemyCities = new List<MainCity>();
             foreach (MainCity city in cities)
@@ -137,8 +138,7 @@ public class MainCity : MonoBehaviour
                     enemyCities.Add(city);
                 }
             }
-            if (teamID == 0)
-                break;
+            
 
             // 檢查是否有目標城市
             if (targetCity == null)
@@ -167,6 +167,23 @@ public class MainCity : MonoBehaviour
             {
                 // 如果沒有目標城市，則等待一段時間再重新尋找目標
                 yield return new WaitForSeconds(10f); // 每10秒重新尋找目標城市
+            }
+        }
+    }
+    void OnTriggerEnter2D(Collider2D collision){
+        if (collision.CompareTag("Soldier") ){
+            Soldier soldier = collision.GetComponent<Soldier>();
+            if(soldier.GetTarget() == gameObject){
+                if(soldier.GetTeamID() == teamID){
+                    num++;
+                }else{
+                    num--;
+                    if(num == 0){
+                        gameObject.GetComponent<SpriteRenderer>().color = soldier.GetComponent<SpriteRenderer>().color;
+                        teamID = soldier.GetTeamID();
+                    }
+                }
+                Destroy(soldier.gameObject);
             }
         }
     }

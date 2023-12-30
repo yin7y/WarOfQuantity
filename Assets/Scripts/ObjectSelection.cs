@@ -47,12 +47,12 @@ public class ObjectSelection : MonoBehaviour
                 if(debugMode){
                     selectedHint.SetActive(true);
                     firstSelectedObject = selectedObject;
-                    Debug.Log(" =========== 選中物體：" + selectedObject.name + " ===========");
+                    Debug.Log(" =========== 選中物體：" + firstSelectedObject.name + " ===========");
                     currentState = SelectionState.FirstSelected;
                 }else if(selectedObject.GetComponent<MainCity>().GetTeamID() == 0){
                     selectedHint.SetActive(true);
                     firstSelectedObject = selectedObject;
-                    Debug.Log(" =========== 選中物體：" + selectedObject.name + " ===========");
+                    Debug.Log(" =========== 選中物體：" + firstSelectedObject.name + " ===========");
                     currentState = SelectionState.FirstSelected;
                 }
                 break;

@@ -20,6 +20,12 @@ public class Soldier : MonoBehaviour
     {
         teamID = id;
     }
+    public GameObject GetTarget(){
+        return destination;
+    }
+    public int GetTeamID(){
+        return teamID;
+    }
 
     public void MoveToDestination(GameObject target)
     {
@@ -33,38 +39,6 @@ public class Soldier : MonoBehaviour
             // 向目的地移動
             transform.position = Vector3.MoveTowards
             (transform.position, destination.transform.position, moveSpeed * Time.deltaTime);
-        }else{
-            Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("City") && collision.gameObject == destination)
-        {
-            // 到達目的地後執行任何必要的操作
-            // Debug.Log("士兵到達目的地：" + collision.gameObject);
-            MainCity targetCity = collision.gameObject.GetComponent<MainCity>();
-            if (targetCity.GetTeamID() != mainCity.GetTeamID())
-                targetCity.GetDamage(1);
-            else if (targetCity.GetTeamID() == mainCity.GetTeamID())
-                targetCity.GetDamage(-1);
-
-            // mainCity.soldiers.Remove(gameObject);
-            // Debug.Log("移除列表兵號 " + gameObject.name);
-            // print(mainCity.soldiers.Count);
-            if (transform.parent.childCount < 2)
-            {
-                targetCity.isDefending = false;
-            }
-            if (targetCity.GetNum() == 0)
-            {
-                // targetCity.SetNum(0);
-                targetCity.SetTeamID(teamID);
-                targetCity.gameObject.GetComponent<SpriteRenderer>().color = gameObject.GetComponent<SpriteRenderer>().color;
-            }
-            // 銷毀士兵物件
-            Destroy(gameObject);
         }
     }
 }
