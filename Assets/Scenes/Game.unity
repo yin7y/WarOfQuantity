@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityPrefab: {fileID: 4189621655167359796, guid: ce5fef54823f1cb4f809bfea49220c2d, type: 3}
-  numberOfCities: 30
+  numberOfCities: 50
   cityMinDistance: 20
   mapRange: 120
   myCamera: {fileID: 963194229}

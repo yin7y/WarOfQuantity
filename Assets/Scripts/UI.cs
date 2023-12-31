@@ -118,6 +118,9 @@ public class UI : MonoBehaviour
             {
                 return false;
             }
+            if(mainCities[i].GetTeamID() != 0){
+                return false;
+            }
         }
 
         return true;

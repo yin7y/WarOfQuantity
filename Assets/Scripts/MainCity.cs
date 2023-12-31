@@ -120,7 +120,6 @@ public class MainCity : MonoBehaviour
             if (enemyCities.Count > 0){
                 int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
                 targetCity = enemyCities[randomIndex].gameObject;
-                print(targetCity.name);
             }
         }
         // 計算發兵數量
