@@ -120,18 +120,16 @@ public class MainCity : MonoBehaviour
             if (enemyCities.Count > 0){
                 int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
                 targetCity = enemyCities[randomIndex].gameObject;
+                print(targetCity.name);
             }
         }
-        
-        // 如果有目標城市，則發兵
-        if (targetCity != null){
-            // 計算發兵數量
-            int count = num - 1;
-            // 生成士兵
-            SoldierGenerator(count, targetCity);
-        }
+        // 計算發兵數量
+        int count = num - 1;
+        // 生成士兵
+        SoldierGenerator(count, targetCity);
+        targetCity = null;
     }
-    
+ 
     public void SetTeamID(int id) => teamID = id;
     public void SetNum(int _num) => num = _num;
     public void GetDamage(int damage) => num -= damage;
