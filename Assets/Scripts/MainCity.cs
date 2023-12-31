@@ -8,21 +8,19 @@ using UnityEngine.UIElements;
 public class MainCity : MonoBehaviour
 {
     [SerializeField] int num, numMax, teamID;
-    public float numCdTime, soldierCdTime;
+    public float numCdTime, soldierCdTime, atkCdTime;
     public bool isDefending;
     int setCount;
     bool isAtking;
-    [SerializeField] float timer;
+    [SerializeField] float timer, atkTimer;
     [SerializeField] TextMeshPro numText;
     [SerializeField] GameObject soldierPrefab, targetCity; 
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
-    UI ui;
     
+    UI ui;    
     int myAllCityCount;
-    // public List<GameObject> soldiers = new(); // 士兵列表
     
-    void Start()
-    {
+    void Start(){
         num = 0;
         numCdTime = 0.4f;
         soldierCdTime = 0.15f;
@@ -30,12 +28,13 @@ public class MainCity : MonoBehaviour
         isAtking = false;
         isDefending = false;
         numMax = 500;
+        atkCdTime = UnityEngine.Random.Range(1,30);
         ui = FindObjectOfType<UI>();
-        StartCoroutine(AutoAttackAI());
     }
     
     void Update(){
         timer += Time.deltaTime;
+        atkTimer += Time.deltaTime;
         if(num < 0)
             num += -num;
         if(num < numMax){
@@ -52,11 +51,17 @@ public class MainCity : MonoBehaviour
             }            
         }else{
             num = numMax;
+            timer = 0;
         }
+        if(atkTimer >= atkCdTime && teamID != 0){
+            AutoAttackAI();            
+            atkCdTime = UnityEngine.Random.Range(1,30);
+            atkTimer = 0f;
+        }
+        
         numText.text = num.ToString();
         
-        myAllCityCount = CountAllCities();
-        
+        myAllCityCount = CountAllCities();        
         if (ui != null){
             ui.UpdateCityCount(myAllCityCount);
         }
@@ -100,6 +105,33 @@ public class MainCity : MonoBehaviour
         isAtking = false;
     }
     
+    void AutoAttackAI(){
+        MainCity[] cities = FindObjectsOfType<MainCity>();
+        List<MainCity> enemyCities = new List<MainCity>();
+        foreach (MainCity city in cities){
+            if (city.teamID != teamID){
+                enemyCities.Add(city);
+            }
+        }
+        
+        // 檢查是否有目標城市
+        if (targetCity == null){
+            // 從敵方城市中隨機選擇一個作為目標
+            if (enemyCities.Count > 0){
+                int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
+                targetCity = enemyCities[randomIndex].gameObject;
+            }
+        }
+        
+        // 如果有目標城市，則發兵
+        if (targetCity != null){
+            // 計算發兵數量
+            int count = num - 1;
+            // 生成士兵
+            SoldierGenerator(count, targetCity);
+        }
+    }
+    
     public void SetTeamID(int id) => teamID = id;
     public void SetNum(int _num) => num = _num;
     public void GetDamage(int damage) => num -= damage;
@@ -121,55 +153,6 @@ public class MainCity : MonoBehaviour
         return countCities;
     }
     
-    IEnumerator AutoAttackAI()
-    {
-        while (true)
-        {
-            if (teamID == 0){
-                yield break;
-            }                
-                
-            MainCity[] cities = FindObjectsOfType<MainCity>();
-            List<MainCity> enemyCities = new List<MainCity>();
-            foreach (MainCity city in cities)
-            {
-                if (city.teamID != teamID)
-                {
-                    enemyCities.Add(city);
-                }
-            }
-            
-
-            // 檢查是否有目標城市
-            if (targetCity == null)
-            {
-                // 從敵方城市中隨機選擇一個作為目標
-                if (enemyCities.Count > 0)
-                {
-                    int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
-                    targetCity = enemyCities[randomIndex].gameObject;
-                }
-            }
-
-            // 如果有目標城市，則發兵
-            if (targetCity != null)
-            {
-                // 計算發兵數量
-                int count = num - 1;
-
-                // 生成士兵
-                SoldierGenerator(count, targetCity);
-
-                // 等待一段時間再進行下一次攻擊
-                yield return new WaitForSeconds(UnityEngine.Random.Range(1, 60));
-            }
-            else
-            {
-                // 如果沒有目標城市，則等待一段時間再重新尋找目標
-                yield return new WaitForSeconds(10f); // 每10秒重新尋找目標城市
-            }
-        }
-    }
     void OnTriggerEnter2D(Collider2D collision){
         if (collision.CompareTag("Soldier") ){
             Soldier soldier = collision.GetComponent<Soldier>();
