@@ -15,7 +15,7 @@ public class UI : MonoBehaviour
     WaitForSeconds waitTime = new WaitForSeconds(1f);
     int maxFPS = 120; // 最大FPS
     float fps;
-    bool isPause;
+    bool isPause, isFinish;
     public bool canSelect;
     private void Start()
     {
@@ -25,23 +25,21 @@ public class UI : MonoBehaviour
         LimitFPS();
     }
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!isPause)
-            {
-                // 打開暫停選單
-                pauseMenu.SetActive(true);
-                Time.timeScale = 0f;
-                isPause = true;
-                canSelect = false;
-            }
-            else
-            {
-                // 關閉暫停選單
-                pauseMenu.SetActive(false);
-                Time.timeScale = 1f;
-                isPause = false;
-                canSelect = true;
+        if(!isFinish){
+            if (Input.GetKeyDown(KeyCode.Escape)){
+                if(!isPause){
+                    // 打開暫停選單
+                    pauseMenu.SetActive(true);
+                    Time.timeScale = 0f;
+                    isPause = true;
+                    canSelect = false;
+                }else{
+                    // 關閉暫停選單
+                    pauseMenu.SetActive(false);
+                    Time.timeScale = 1f;
+                    isPause = false;
+                    canSelect = true;
+                }
             }
         }
     }
@@ -51,10 +49,10 @@ public class UI : MonoBehaviour
         // 檢查所有MainCity的teamID是否相同
         if (AreAllMainCitiesSameTeam())
         {
-            // 暫停遊戲
             winMenu.SetActive(true);
             SelectedHint.SetActive(false);
             canSelect = false;
+            isFinish = true;
             Time.timeScale = 0f;
         }
         if (!DoesCityWithTeamIDExist(0))
@@ -63,6 +61,7 @@ public class UI : MonoBehaviour
             loseMenu.SetActive(true);
             SelectedHint.SetActive(false);
             canSelect = false;
+            isFinish = true;
             Time.timeScale = 0f;
         }
     }
