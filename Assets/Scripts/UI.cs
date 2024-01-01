@@ -73,6 +73,9 @@ public class UI : MonoBehaviour
         winMenu.SetActive(false);
         loseMenu.SetActive(false);
     }
+    public void OnMenuClick(){
+        SceneManager.LoadScene("Menu");
+    }
     public void OnReStartClick(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
