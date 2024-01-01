@@ -28,7 +28,9 @@ public class Menu : MonoBehaviour
     public void OnStartClick(){
         SceneManager.LoadScene("Game");
     }
-    
+    public void OnQuitClick(){
+        Application.Quit();
+    }
     
     IEnumerator ReloadBackGroundGame(){
         yield return new WaitForSeconds(3);

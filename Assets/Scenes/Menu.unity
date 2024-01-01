@@ -1053,8 +1053,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UI, Assembly-CSharp
+      - m_Target: {fileID: 1791478645}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: OnQuitClick
         m_Mode: 1
         m_Arguments:
