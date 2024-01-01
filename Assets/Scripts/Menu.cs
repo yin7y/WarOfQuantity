@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour
     [SerializeField] CityGenerator cityGenerator;
     void Start()
     {
+        Time.timeScale = 1f;
         maxFPS = 60;
         canReload = true;
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
