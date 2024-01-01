@@ -1,8 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
-using UnityEditor.Scripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

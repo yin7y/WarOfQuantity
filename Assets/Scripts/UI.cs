@@ -9,8 +9,7 @@ public class UI : MonoBehaviour
 {
     
     [SerializeField] Text cityCountText, fpsText;
-    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint;
-    
+    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint;    
     
     WaitForSeconds waitTime = new WaitForSeconds(1f);
     int maxFPS = 120; // 最大FPS
