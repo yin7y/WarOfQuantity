@@ -68,7 +68,7 @@ public class MainCity : MonoBehaviour
     }
 
     public void SoldierGenerator(int count, GameObject target){
-        if(target != null && num >1)
+        if(num >1)
             StartCoroutine(GenerateSoldiers(count, target));
     }
 
@@ -76,9 +76,7 @@ public class MainCity : MonoBehaviour
         // print(" " + gameObject.name + " >> 發兵 >> " + target.name);
         targetCity = target;
         setCount = count;
-        // if(setCount >= num)
-            // setCount = num - 1;
-        if(gameObject.GetComponent<MainCity>().isAtking == false)
+        if(gameObject.GetComponent<MainCity>().isAtking == false){
             for (int i = 0; i < setCount; i++){                 
                 if(num > 1){
                     // 生成士兵
@@ -102,6 +100,7 @@ public class MainCity : MonoBehaviour
                 }
             }
             target.GetComponent<MainCity>().isDefending = false;
+        }
         isAtking = false;
     }
     
@@ -122,10 +121,12 @@ public class MainCity : MonoBehaviour
                 targetCity = enemyCities[randomIndex].gameObject;
             }
         }
-        // 計算發兵數量
-        int count = num - 1;
-        // 生成士兵
-        SoldierGenerator(count, targetCity);
+        if (targetCity != null){
+            // 計算發兵數量
+            int count = num - 1;
+            // 生成士兵
+            SoldierGenerator(count, targetCity);
+        }
         targetCity = null;
     }
  

@@ -6,20 +6,26 @@ public class CityGenerator : MonoBehaviour
     public int numberOfCities = 5;
     public float cityMinDistance = 20f;
     public int mapRange;
+    [SerializeField] bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
 
     void Awake()
     {
         GenerateCities();
-        myCamera.FindAndFocusMainCity();
+        if(!watchMode)
+            myCamera.FindAndFocusMainCity();
+        else{
+            myCamera.gameObject.transform.position = new Vector3(-35,0,-110);
+        }
     }
 
-    void GenerateCities()
+    public void GenerateCities()
     {
         // 建立 Cities 物件
         GameObject citiesObject = new("MainCities");
-
-        for (int i = 0; i < numberOfCities; i++)
+        int setCities = watchMode? numberOfCities+1 : numberOfCities;
+        
+        for (int i = watchMode? 1 : 0; i < setCities; i++)
         {
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
             GameObject city = Instantiate(cityPrefab, randomCityPosition, Quaternion.identity);
