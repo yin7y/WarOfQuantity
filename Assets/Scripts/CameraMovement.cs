@@ -12,17 +12,23 @@ public class CameraMovement : MonoBehaviour
 
     private Vector3 dragOrigin;
     private bool isDragging = false;
+    [SerializeField] bool canMove;
+    
+    void Awake() {
+        transform.position = new Vector3(-35,0,-120);
+    }
     
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F)){
-            FindAndFocusMainCity();
-            transform.position = new Vector3(transform.position.x, transform.position.y, -80f);
+        if(canMove){
+            if(Input.GetKeyDown(KeyCode.F)){
+                FindAndFocusMainCity();                
+            }
+            HandleKeyboardMovement();
+            HandleMouseDrag();
+            HandleEdgeScroll();
+            HandleZoom();
         }
-        HandleKeyboardMovement();
-        HandleMouseDrag();
-        // HandleEdgeScroll();
-        HandleZoom();
     }
 
     public void FindAndFocusMainCity()
@@ -39,6 +45,7 @@ public class CameraMovement : MonoBehaviour
                 break; // 找到第一個符合條件的城市後，停止迴圈
             }
         }
+        transform.position = new Vector3(transform.position.x, transform.position.y, -80f);
     }
 
     void HandleKeyboardMovement()

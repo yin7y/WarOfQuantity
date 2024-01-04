@@ -386,7 +386,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcc417bede87c844eae653ba76812c4a, type: 3}
   m_Name: 
@@ -398,6 +398,7 @@ MonoBehaviour:
   minZoom: -60
   maxZoom: -500
   edgeBoundary: 50
+  canMove: 0
 --- !u!1 &1063354693
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +458,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
@@ -970,6 +971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCities: []
   cityGenerator: {fileID: 2059394340}
+  timeSpeed: 1
 --- !u!1 &1900352488
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,8 +1008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -93, y: 71}
-  m_SizeDelta: {x: 150, y: 100}
+  m_AnchoredPosition: {x: -56, y: 51}
+  m_SizeDelta: {x: 80, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900352490
 MonoBehaviour:
@@ -1179,7 +1181,7 @@ MonoBehaviour:
   cityPrefab: {fileID: 4189621655167359796, guid: ce5fef54823f1cb4f809bfea49220c2d, type: 3}
   numberOfCities: 10
   cityMinDistance: 20
-  mapRange: 50
+  mapRange: 60
   watchMode: 1
   autoNextMode: 0
   myCamera: {fileID: 963194229}

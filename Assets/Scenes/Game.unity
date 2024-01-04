@@ -523,7 +523,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 350}
+  m_AnchoredPosition: {x: 0, y: 484}
   m_SizeDelta: {x: 400, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &300898739
@@ -1187,7 +1187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -77}
+  m_AnchoredPosition: {x: 100, y: -57}
   m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &695771728
@@ -1985,6 +1985,7 @@ MonoBehaviour:
   minZoom: -60
   maxZoom: -500
   edgeBoundary: 50
+  canMove: 1
 --- !u!1 &975246115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,7 +2289,7 @@ GameObject:
   - component: {fileID: 1093657065}
   - component: {fileID: 1093657064}
   m_Layer: 5
-  m_Name: InputText
+  m_Name: InputHintText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

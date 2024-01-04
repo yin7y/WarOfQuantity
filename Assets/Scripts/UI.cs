@@ -89,23 +89,25 @@ public class UI : MonoBehaviour
         // 檢查每個城市的teamID是否等於指定的teamID
         foreach (MainCity city in cities)
         {
-            if (city.GetTeamID() == teamID)
-            {
+            if (city.GetTeamID() == teamID){
                 return true;
+            }
+            if(city.GetComponentInChildren<Soldier>() != null){
+                if(city.GetComponentInChildren<Soldier>().GetTeamID() == teamID){
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
-    bool AreAllMainCitiesSameTeam()
-    {
+    bool AreAllMainCitiesSameTeam(){
         // 獲取所有MainCity的陣列
         MainCity[] mainCities = FindObjectsOfType<MainCity>();
 
         // 如果沒有MainCity，則返回false
-        if (mainCities.Length == 0)
-        {
+        if (mainCities.Length == 0){
             return false;
         }
 
@@ -116,21 +118,21 @@ public class UI : MonoBehaviour
         for (int i = 1; i < mainCities.Length; i++)
         {
             if (mainCities[i].GetTeamID() != firstTeamID)
-            {
                 return false;
-            }
-            if(mainCities[i].GetTeamID() != 0){
+            if(mainCities[i].GetTeamID() != 0)
                 return false;
+            if(mainCities[i].GetComponentInChildren<Soldier>() != null){
+                if(mainCities[i].GetComponentInChildren<Soldier>().GetTeamID() != firstTeamID)
+                    return false;
+                if(mainCities[i].GetComponentInChildren<Soldier>().GetTeamID() != 0)
+                    return false;
             }
         }
-
         return true;
     }
 
-    System.Collections.IEnumerator UpdateFPS()
-    {
-        while (true)
-        {
+    System.Collections.IEnumerator UpdateFPS(){
+        while (true){
             // 計算FPS
             fps = 1f / Time.deltaTime;
 
@@ -145,8 +147,7 @@ public class UI : MonoBehaviour
             yield return waitTime;
         }
     }
-    void LimitFPS()
-    {
+    void LimitFPS(){
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
         Application.targetFrameRate = maxFPS; // 設定目標FPS
     }

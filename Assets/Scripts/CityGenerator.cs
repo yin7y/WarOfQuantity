@@ -9,14 +9,12 @@ public class CityGenerator : MonoBehaviour
     [SerializeField] bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
 
-    void Awake()
-    {
+    void Awake(){
         GenerateCities();
+    }
+    void Start(){
         if(!watchMode)
             myCamera.FindAndFocusMainCity();
-        else{
-            myCamera.gameObject.transform.position = new Vector3(-35,0,-110);
-        }
     }
 
     public void GenerateCities()
