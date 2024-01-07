@@ -7,9 +7,11 @@ public class Soldier : MonoBehaviour
     private int teamID;
     private GameObject destination;
     private float moveSpeed = 20f;
+    public string belongCityName;
     MainCity mainCity;
 
     void Start(){
+        belongCityName = GetComponentInParent<MainCity>().nameText.text;;
         mainCity = transform.parent.gameObject.GetComponentInParent<MainCity>();
         gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
         // destination = mainCity.GetTargetCity(); 保留兵  隨時可更換目標型

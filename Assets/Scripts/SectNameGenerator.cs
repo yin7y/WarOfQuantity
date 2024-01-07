@@ -5,73 +5,28 @@ using System.IO;
 
 public class SectNameGenerator : MonoBehaviour
 {
-    public int numberOfNames = 5; // 生成的門派名稱數量
-    public string prefixesFilePath; // 前綴文字檔的路徑
-    public string[] suffixes; // 後綴字陣列
-
     private List<string> prefixes;
-
-    void Start()
-    {
-        LoadPrefixes();
-
-        List<string> sectNames = GenerateSectNames(numberOfNames);
-
-        // 打印生成的門派名稱
-        foreach (string name in sectNames)
-        {
-            Debug.Log("門派名稱：" + name);
-        }
+    [SerializeField] TextAsset txtFile; 
+    public void LoadPrefixes(){
+        // 將文本內容按行分割成字串陣列
+        string[] lines = txtFile.text.Split('\n');
+        
+        // 將字串陣列轉換為List<string>
+        List<string> textLines = new List<string>(lines);
+        
+        prefixes = textLines;
     }
 
-    void LoadPrefixes()
-    {
-        prefixes = LoadWordsFromFile(prefixesFilePath);
-    }
+    public string GenerateRandomSectName(){
+        string[] availableSuffixes = { 
+            "門", "派", "閣", "宗", "谷", "堂", "教", "殿", "獄", "山", "城", "國", "盟", "島", "觀", "寨", "堡", "府", "樓", "宮", "塔", "會", "幫", 
+            "仙宗", "劍宗", "魔宗", "上宗", "神宗", "妖宗", "古宗", "道宗", "聖地", "天朝", "帝朝", "皇朝", "王朝", "仙朝", "聖朝", "古朝", "帝國", "上國", "天國", "聖庭", "妖庭", "天庭", "王國", "古國", "仙國", "神國", 
+            "聯盟", "仙盟", "仙島", "仙山", "神山", "妖山", "聖山", "仙閣", "魔教", "邪教", "仙門", "仙城", "仙域", "魔域", "神域", "聖域", "鬼域", "仙府", "天府", "仙殿", "魔殿", "古殿", "山莊", "龍宮", "仙宮", "天宮"};
 
-    List<string> LoadWordsFromFile(string filePath)
-    {
-        List<string> words = new List<string>();
-
-        if (File.Exists(filePath))
-        {
-            string[] lines = File.ReadAllLines(filePath);
-            words.AddRange(lines);
-        }
-        else
-        {
-            Debug.LogError("找不到文字檔：" + filePath);
-        }
-
-        return words;
-    }
-
-    List<string> GenerateSectNames(int count)
-    {
-        List<string> sectNames = new List<string>();
-
-        for (int i = 0; i < count; i++)
-        {
-            string sectName = GenerateRandomSectName();
-            sectNames.Add(sectName);
-        }
-
-        return sectNames;
-    }
-
-    string GenerateRandomSectName()
-    {
-        // 在這裡根據你的需求生成隨機的門派名稱
-        // 可以使用各種算法、數據結構或外部資源來生成名稱
-
-        // 這裡只是一個示例，你可以根據自己的需求進行修改
-        string[] availableSuffixes = { "門", "派", "宗", "仙宗", "劍宗", "聖地", "谷", "堂", "教", "殿", "天朝", "上國", "仙朝", "聖庭", "古國", "山", "盟", "聯盟", "島"};
-
-        int prefixLength = Random.Range(1, 4);
+        int prefixLength = Random.Range(1, 3);
         List<string> selectedPrefixes = new List<string>();
 
-        for (int i = 0; i < prefixLength; i++)
-        {
+        for (int i = 0; i < prefixLength; i++){
             int prefixIndex = Random.Range(0, prefixes.Count);
             string selectedPrefix = prefixes[prefixIndex];
             selectedPrefixes.Add(selectedPrefix);

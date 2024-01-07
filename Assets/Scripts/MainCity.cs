@@ -12,7 +12,9 @@ public class MainCity : MonoBehaviour
     public bool isDefending;
     int setCount;
     bool isAtking;
+    
     [SerializeField] float timer, atkTimer;
+    public TextMesh nameText;
     [SerializeField] TextMeshPro numText;
     [SerializeField] GameObject soldierPrefab, targetCity; 
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
@@ -21,7 +23,8 @@ public class MainCity : MonoBehaviour
     int myAllCityCount;
     
     void Start(){
-        num = 0;
+        
+        num = 1;
         numCdTime = 0.4f;
         soldierCdTime = 0.15f;
         numText.text = num.ToString();
@@ -53,9 +56,9 @@ public class MainCity : MonoBehaviour
             num = numMax;
             timer = 0;
         }
-        if(atkTimer >= atkCdTime && teamID != 0){
+        if(atkTimer >= atkCdTime && teamID != 0){  // 敵人AI
             AutoAttackAI();            
-            atkCdTime = UnityEngine.Random.Range(1,30);
+            atkCdTime = UnityEngine.Random.Range(1, 30);
             atkTimer = 0f;
         }
         
@@ -122,10 +125,8 @@ public class MainCity : MonoBehaviour
             }
         }
         if (targetCity != null){
-            // 計算發兵數量
-            int count = num - 1;
             // 生成士兵
-            SoldierGenerator(count, targetCity);
+            SoldierGenerator(num - 1, targetCity);
         }
         targetCity = null;
     }
@@ -160,8 +161,11 @@ public class MainCity : MonoBehaviour
                 }else{
                     num--;
                     if(num == 0){
+                        nameText.text = soldier.belongCityName;
                         gameObject.GetComponent<SpriteRenderer>().color = soldier.GetComponent<SpriteRenderer>().color;
-                        teamID = soldier.GetTeamID();
+                        nameText.color = gameObject.GetComponent<SpriteRenderer>().color;
+                        
+                        teamID = soldier.GetTeamID();                        
                     }
                 }
                 Destroy(soldier.gameObject);

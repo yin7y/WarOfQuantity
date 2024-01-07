@@ -3871,6 +3871,7 @@ MonoBehaviour:
   watchMode: 0
   autoNextMode: 0
   myCamera: {fileID: 963194229}
+  randomName: {fileID: 2059394341}
 --- !u!114 &2059394341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3883,9 +3884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebca60326cd50c41a21d8608eeb7671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfNames: 10
   prefixesFilePath: Assets/Resources/fore.txt
-  suffixes: []
+  txtFile: {fileID: 4900000, guid: 82f5250fa944c2141abf5cd5b6669c6f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
