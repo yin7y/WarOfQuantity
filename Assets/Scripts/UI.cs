@@ -12,7 +12,7 @@ public class UI : MonoBehaviour
     [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint;    
     
     WaitForSeconds waitTime = new WaitForSeconds(1f);
-    int maxFPS = 120; // 最大FPS
+    short maxFPS = 1000; // 最大FPS
     float fps;
     bool isPause, isFinish;
     public bool canSelect;
@@ -41,21 +41,15 @@ public class UI : MonoBehaviour
                 }
             }
         }
-    }
-    public void UpdateCityCount(int count)
-    {
-        cityCountText.text = "主城: " + count.ToString();
         // 檢查所有MainCity的teamID是否相同
-        if (AreAllMainCitiesSameTeam())
-        {
+        if (AreAllMainCitiesSameTeam()){
             winMenu.SetActive(true);
             SelectedHint.SetActive(false);
             canSelect = false;
             isFinish = true;
             Time.timeScale = 0f;
         }
-        if (!DoesCityWithTeamIDExist(0))
-        {
+        if (!DoesCityWithTeamIDExist(0)){
             // 顯示loseMenu並暫停遊戲
             loseMenu.SetActive(true);
             SelectedHint.SetActive(false);
@@ -63,6 +57,10 @@ public class UI : MonoBehaviour
             isFinish = true;
             Time.timeScale = 0f;
         }
+        UpdateCityCount(CountAllCities());
+    }
+    public void UpdateCityCount(int count){
+        cityCountText.text = "主城: " + count.ToString();
     }
     public void OnContinueBut(){
         Time.timeScale = 1f;
@@ -72,15 +70,7 @@ public class UI : MonoBehaviour
         winMenu.SetActive(false);
         loseMenu.SetActive(false);
     }
-    public void OnMenuClick(){
-        SceneManager.LoadScene("Menu");
-    }
-    public void OnReStartClick(){
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    public void OnQuitClick(){
-        Application.Quit();
-    }
+
     bool DoesCityWithTeamIDExist(int teamID)
     {
         // 獲取所有城市的陣列
@@ -100,6 +90,17 @@ public class UI : MonoBehaviour
         }
 
         return false;
+    }
+    
+    int CountAllCities(){
+        int countCities = 0;
+        MainCity[] cities = FindObjectsOfType<MainCity>();
+        foreach (MainCity city in cities){
+            if (city.GetTeamID() == 0){
+                countCities++;
+            }
+        }
+        return countCities;
     }
 
     bool AreAllMainCitiesSameTeam(){
@@ -131,14 +132,14 @@ public class UI : MonoBehaviour
         return true;
     }
 
-    System.Collections.IEnumerator UpdateFPS(){
+    IEnumerator UpdateFPS(){
         while (true){
             // 計算FPS
             fps = 1f / Time.deltaTime;
 
             // 檢查是否超過最大FPS
-            if (fps > maxFPS)
-                fps = maxFPS;
+            // if (fps > maxFPS)
+            //     fps = maxFPS;
 
             // 更新顯示的FPS文本
             fpsText.text = "FPS: " + Mathf.Round(fps).ToString();
@@ -150,5 +151,14 @@ public class UI : MonoBehaviour
     void LimitFPS(){
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
         Application.targetFrameRate = maxFPS; // 設定目標FPS
+    }
+    public void OnMenuClick(){
+        SceneManager.LoadScene("Menu");
+    }
+    public void OnReStartClick(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void OnQuitClick(){
+        Application.Quit();
     }
 }

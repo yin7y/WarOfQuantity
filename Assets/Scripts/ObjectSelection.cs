@@ -23,7 +23,7 @@ public class ObjectSelection : MonoBehaviour
             CheckObjectSelection();
         }
         if(firstSelectedObject != null){
-            if(firstSelectedObject.GetComponent<MainCity>().GetTeamID() != 0){
+            if(firstSelectedObject.GetComponent<MainCity>().GetTeamID() != 0 && debugMode == false){
                 Debug.Log("取消選中物體：" + firstSelectedObject.name);   
                 selectedObject = null;
                 firstSelectedObject = null;

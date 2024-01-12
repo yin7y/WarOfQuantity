@@ -6,7 +6,7 @@ public class CityGenerator : MonoBehaviour
     public int numberOfCities = 5;
     public float cityMinDistance = 20f;
     public int mapRange;
-    [SerializeField] bool watchMode, autoNextMode;
+    public bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
     [SerializeField] SectNameGenerator randomName;
 
@@ -16,7 +16,7 @@ public class CityGenerator : MonoBehaviour
         randomName.LoadPrefixes();
         GenerateCities();
     }
-    void Start(){        
+    void Start(){
         if(!watchMode)
             myCamera.FindAndFocusMainCity();
     }

@@ -19,11 +19,7 @@ public class MainCity : MonoBehaviour
     [SerializeField] GameObject soldierPrefab, targetCity; 
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
     
-    UI ui;    
-    int myAllCityCount;
-    
     void Start(){
-        
         num = 1;
         numCdTime = 0.4f;
         soldierCdTime = 0.15f;
@@ -32,7 +28,6 @@ public class MainCity : MonoBehaviour
         isDefending = false;
         numMax = 500;
         atkCdTime = UnityEngine.Random.Range(1,30);
-        ui = FindObjectOfType<UI>();
     }
     
     void Update(){
@@ -63,11 +58,6 @@ public class MainCity : MonoBehaviour
         }
         
         numText.text = num.ToString();
-        
-        myAllCityCount = CountAllCities();        
-        if (ui != null){
-            ui.UpdateCityCount(myAllCityCount);
-        }
     }
 
     public void SoldierGenerator(int count, GameObject target){
@@ -75,7 +65,7 @@ public class MainCity : MonoBehaviour
             StartCoroutine(GenerateSoldiers(count, target));
     }
 
-    private IEnumerator GenerateSoldiers(int count, GameObject target){
+    IEnumerator GenerateSoldiers(int count, GameObject target){
         // print(" " + gameObject.name + " >> 發兵 >> " + target.name);
         targetCity = target;
         setCount = count;
@@ -105,6 +95,7 @@ public class MainCity : MonoBehaviour
             target.GetComponent<MainCity>().isDefending = false;
         }
         isAtking = false;
+        yield break;
     }
     
     void AutoAttackAI(){
@@ -139,17 +130,6 @@ public class MainCity : MonoBehaviour
     }
     public int GetNum(){
         return num;
-    }
-  
-    int CountAllCities(){
-        int countCities = 0;
-        MainCity[] cities = FindObjectsOfType<MainCity>();
-        foreach (MainCity city in cities){
-            if (city.teamID == 0){
-                countCities++;
-            }
-        }
-        return countCities;
     }
     
     void OnTriggerEnter2D(Collider2D collision){
