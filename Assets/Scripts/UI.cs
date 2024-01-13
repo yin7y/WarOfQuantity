@@ -74,16 +74,12 @@ public class UI : MonoBehaviour
         // 獲取所有 MainCity 的陣列
         MainCity[] mainCities = FindObjectsOfType<MainCity>();
         // 計算每個 teamID 的城市數量
-        foreach (MainCity city in mainCities)
-        {
+        foreach (MainCity city in mainCities){
             int teamID = city.GetTeamID();
 
-            if (teamCityCount.ContainsKey(teamID))
-            {
+            if (teamCityCount.ContainsKey(teamID)){
                 teamCityCount[teamID]++;
-            }
-            else
-            {
+            }else{
                 teamCityCount[teamID] = 1;
             }
         }
@@ -93,7 +89,7 @@ public class UI : MonoBehaviour
         sortedTeamCityCount.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
         // 更新 UI 文本元件
-        string rankingText = "";
+        string rankingText = string.Empty;
         if(sortedTeamCityCount.Count() > 10){
             for (int i = 0; i < 10; i++){
                 int teamID = sortedTeamCityCount[i].Key;
@@ -101,7 +97,7 @@ public class UI : MonoBehaviour
                 // 獲取隊伍ID對應的城市名稱
                 string cityName = GetCityName(teamID);
                 
-                string lineText = string.Format("<color=#{0}>{1,3} {2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
                 rankingText += lineText;
             }
         }else{
@@ -111,12 +107,10 @@ public class UI : MonoBehaviour
                 // 獲取隊伍ID對應的城市名稱
                 string cityName = GetCityName(teamID);
                 
-                string lineText = string.Format("<color=#{0}>{1,3} {2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
                 rankingText += lineText;
             }
         }
-        
-
         // 顯示排名在 UI 文本元件上
         this.rankingText.text = rankingText;
     }
@@ -133,7 +127,7 @@ public class UI : MonoBehaviour
                 return ColorUtility.ToHtmlStringRGB(city.nameText.color);
             }
         }
-        return "";
+        return string.Empty;
         // 循環選擇顏色
         // return colors[index % colors.Length];
     }
