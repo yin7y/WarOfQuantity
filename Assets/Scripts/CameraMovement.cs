@@ -47,8 +47,13 @@ public class CameraMovement : MonoBehaviour
     }
     void ToggleFullscreen(){
         isFullscreen = !isFullscreen;
-        if (isFullscreen)
+        if (isFullscreen){
+            //获取设置当前屏幕分辩率 
+            Resolution[] resolutions = Screen.resolutions;
+            //设置当前分辨率 
+            Screen.SetResolution(resolutions[resolutions.Length - 1].width, resolutions[resolutions.Length - 1].height, true);
             Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        }
         else
             Screen.fullScreenMode = FullScreenMode.Windowed;
     }
