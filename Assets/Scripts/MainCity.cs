@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 
 public class MainCity : MonoBehaviour
@@ -16,13 +17,13 @@ public class MainCity : MonoBehaviour
     [SerializeField] float timer, atkTimer;
     public TextMesh nameText;
     [SerializeField] TextMeshPro numText;
-    [SerializeField] GameObject soldierPrefab, targetCity; 
+    [SerializeField] GameObject soldierPrefab, targetCity, myselfHint; 
     [SerializeField] Transform soldiersParent; // 用於整理士兵的父物件
     
     void Start(){
         num = 1;
         numCdTime = 0.4f;
-        soldierCdTime = 0.15f;
+        soldierCdTime = 0.1f;
         numText.text = num.ToString();
         isAtking = false;
         isDefending = false;
@@ -51,12 +52,16 @@ public class MainCity : MonoBehaviour
             num = numMax;
             timer = 0;
         }
-        if(atkTimer >= atkCdTime && teamID != 0){  // 敵人AI
+        if(atkTimer >= atkCdTime && (teamID != 0 || OP.autoMode)){  // 敵人AI
             AutoAttackAI();            
             atkCdTime = UnityEngine.Random.Range(1, 30);
             atkTimer = 0f;
         }
-        
+        if(teamID == 0){
+            myselfHint.SetActive(true);
+        }else{
+            myselfHint.SetActive(false);
+        }
         numText.text = num.ToString();
     }
 
@@ -90,7 +95,10 @@ public class MainCity : MonoBehaviour
                     target.GetComponent<MainCity>().isDefending = true; // 指定城正在被發兵
                     
                     yield return new WaitForSeconds(soldierCdTime);
+                }else{
+                    break;
                 }
+                
             }
             target.GetComponent<MainCity>().isDefending = false;
         }

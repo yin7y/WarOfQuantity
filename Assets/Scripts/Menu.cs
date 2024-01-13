@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour
     [SerializeField] MainCity[] mainCities;
     [SerializeField] CityGenerator cityGenerator;
     [SerializeField] float timeSpeed;
+    public static short playNum;
     void Start()
     {
         timeSpeed = 1f;
@@ -28,6 +29,7 @@ public class Menu : MonoBehaviour
     }
     
     public void OnStartClick(){
+        playNum = 50;
         SceneManager.LoadScene("Game");
     }
     public void OnQuitClick(){

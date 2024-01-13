@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 50
-  dragSpeed: 40
+  dragSpeed: 100
   edgeScrollSpeed: 30
   zoomSpeed: 200
   minZoom: -60
@@ -1166,7 +1166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedHint: {fileID: 1409848221}
-  debugMode: 0
 --- !u!114 &2059394340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,8 +1180,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cityPrefab: {fileID: 4189621655167359796, guid: ce5fef54823f1cb4f809bfea49220c2d, type: 3}
   numberOfCities: 10
-  cityMinDistance: 20
   mapRange: 60
+  cityMinDistance: 20
   watchMode: 1
   autoNextMode: 0
   myCamera: {fileID: 963194229}
@@ -1199,8 +1198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebca60326cd50c41a21d8608eeb7671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefixesFilePath: Assets//Resources//forename.txt
   txtFile: {fileID: 4900000, guid: 82f5250fa944c2141abf5cd5b6669c6f, type: 3}
+  specialTxtFiles: {fileID: 4900000, guid: 2b92e58e229ccb34d9fc6b4ae32ca851, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -4,12 +4,16 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class UI : MonoBehaviour
 {
     
     [SerializeField] Text cityCountText, fpsText;
     [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint;    
+    
+    public Text rankingText;
+    Dictionary<int, int> teamCityCount = new Dictionary<int, int>();
     
     WaitForSeconds waitTime = new WaitForSeconds(1f);
     short maxFPS = 1000; // 最大FPS
@@ -58,19 +62,97 @@ public class UI : MonoBehaviour
             Time.timeScale = 0f;
         }
         UpdateCityCount(CountAllCities());
+        Rank();
     }
     public void UpdateCityCount(int count){
         cityCountText.text = "主城: " + count.ToString();
     }
-    public void OnContinueBut(){
-        Time.timeScale = 1f;
-        isPause = false;
-        canSelect = true;;
-        pauseMenu.SetActive(false);
-        winMenu.SetActive(false);
-        loseMenu.SetActive(false);
+    void Rank(){
+         // 重置 teamCityCount 字典
+        teamCityCount.Clear();
+
+        // 獲取所有 MainCity 的陣列
+        MainCity[] mainCities = FindObjectsOfType<MainCity>();
+        // 計算每個 teamID 的城市數量
+        foreach (MainCity city in mainCities)
+        {
+            int teamID = city.GetTeamID();
+
+            if (teamCityCount.ContainsKey(teamID))
+            {
+                teamCityCount[teamID]++;
+            }
+            else
+            {
+                teamCityCount[teamID] = 1;
+            }
+        }
+
+        // 根據城市數量進行排名
+        List<KeyValuePair<int, int>> sortedTeamCityCount = teamCityCount.ToList();
+        sortedTeamCityCount.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+
+        // 更新 UI 文本元件
+        string rankingText = "";
+        if(sortedTeamCityCount.Count() > 10){
+            for (int i = 0; i < 10; i++){
+                int teamID = sortedTeamCityCount[i].Key;
+                int cityCount = sortedTeamCityCount[i].Value;
+                // 獲取隊伍ID對應的城市名稱
+                string cityName = GetCityName(teamID);
+                
+                string lineText = string.Format("<color=#{0}>{1,3} {2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+                rankingText += lineText;
+            }
+        }else{
+            for (int i = 0; i < sortedTeamCityCount.Count(); i++){
+                int teamID = sortedTeamCityCount[i].Key;
+                int cityCount = sortedTeamCityCount[i].Value;
+                // 獲取隊伍ID對應的城市名稱
+                string cityName = GetCityName(teamID);
+                
+                string lineText = string.Format("<color=#{0}>{1,3} {2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+                rankingText += lineText;
+            }
+        }
+        
+
+        // 顯示排名在 UI 文本元件上
+        this.rankingText.text = rankingText;
     }
 
+    string GetColorHex(int teamID)
+    {
+        // 自訂顏色列表
+        // string[] colors = { "FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF" };
+        MainCity[] cities = FindObjectsOfType<MainCity>();
+        foreach (MainCity city in cities)
+        {
+            if (city.GetTeamID() == teamID)
+            {
+                return ColorUtility.ToHtmlStringRGB(city.nameText.color);
+            }
+        }
+        return "";
+        // 循環選擇顏色
+        // return colors[index % colors.Length];
+    }
+    string GetCityName(int teamID)
+    {
+        // 根據隊伍ID獲取城市名稱
+        MainCity[] cities = FindObjectsOfType<MainCity>();
+        foreach (MainCity city in cities)
+        {
+            if (city.GetTeamID() == teamID)
+            {
+                return city.nameText.text;
+            }
+        }
+
+        return "Unknown City";
+    }
+    
+    
     bool DoesCityWithTeamIDExist(int teamID)
     {
         // 獲取所有城市的陣列
@@ -151,6 +233,14 @@ public class UI : MonoBehaviour
     void LimitFPS(){
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
         Application.targetFrameRate = maxFPS; // 設定目標FPS
+    }
+    public void OnContinueBut(){
+        Time.timeScale = 1f;
+        isPause = false;
+        canSelect = true;;
+        pauseMenu.SetActive(false);
+        winMenu.SetActive(false);
+        loseMenu.SetActive(false);
     }
     public void OnMenuClick(){
         SceneManager.LoadScene("Menu");

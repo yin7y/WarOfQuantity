@@ -6,7 +6,6 @@ public class ObjectSelection : MonoBehaviour
 {
     GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體，原先選中的物體    MainCity sameCity;
     [SerializeField] GameObject selectedHint;  // 選擇提示
-    [SerializeField] bool debugMode;
     
     UI ui;
     SelectionState currentState = SelectionState.None;
@@ -23,7 +22,7 @@ public class ObjectSelection : MonoBehaviour
             CheckObjectSelection();
         }
         if(firstSelectedObject != null){
-            if(firstSelectedObject.GetComponent<MainCity>().GetTeamID() != 0 && debugMode == false){
+            if(firstSelectedObject.GetComponent<MainCity>().GetTeamID() != 0 && OP.rigMode == false){
                 Debug.Log("取消選中物體：" + firstSelectedObject.name);   
                 selectedObject = null;
                 firstSelectedObject = null;
@@ -54,7 +53,7 @@ public class ObjectSelection : MonoBehaviour
 
         switch (currentState){
             case SelectionState.None:
-                if(debugMode){
+                if(OP.rigMode){
                     selectedHint.SetActive(true);
                     firstSelectedObject = selectedObject;
                     Debug.Log(" =========== 選中物體：" + firstSelectedObject.name + " ===========");
@@ -82,7 +81,7 @@ public class ObjectSelection : MonoBehaviour
 
     private void DeselectObject(){
         if(firstSelectedObject != null){
-            if(debugMode){
+            if(OP.rigMode){
                 selectedHint.SetActive(false);
                 Debug.Log("取消選中物體：" + firstSelectedObject.name);
                 

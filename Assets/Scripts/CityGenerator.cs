@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CityGenerator : MonoBehaviour
 {
+    int playingNum;
     public GameObject cityPrefab;
-    public int numberOfCities = 5;
+    public int numberOfCities, mapRange;
     public float cityMinDistance = 20f;
-    public int mapRange;
     public bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
     [SerializeField] SectNameGenerator randomName;
@@ -14,6 +14,9 @@ public class CityGenerator : MonoBehaviour
     void Awake(){
         randomName = GetComponent<SectNameGenerator>();
         randomName.LoadPrefixes();
+        playingNum = Menu.playNum;
+        if(playingNum == 0)
+            playingNum = numberOfCities;
         GenerateCities();
     }
     void Start(){
@@ -24,7 +27,7 @@ public class CityGenerator : MonoBehaviour
     public void GenerateCities(){
         // 建立 Cities 物件
         GameObject citiesObject = new("MainCities");
-        int setCities = watchMode? numberOfCities+1 : numberOfCities;
+        int setCities = watchMode? playingNum+1 : playingNum;
         
         for (int i = watchMode? 1 : 0; i < setCities; i++){
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
@@ -35,7 +38,7 @@ public class CityGenerator : MonoBehaviour
             city.GetComponent<MainCity>().SetTeamID(teamID);
 
             // 分配隨機顏色給城市
-            Color randomColor = Random.ColorHSV(0f, 1f, 0.5f, 1f, 0.5f, 1f); // 控制亮色範圍
+            Color randomColor = Random.ColorHSV(0f, 1f, 0.4f, 1f, 0.4f, 1f); // 控制亮色範圍
             city.GetComponent<SpriteRenderer>().color = randomColor;
 
             // 將城市設定為 Cities 物件的子物件
