@@ -14,6 +14,7 @@ public class CameraMovement : MonoBehaviour
     private Vector3 dragOrigin;
     private bool isDragging = false;
     [SerializeField] bool canMove;
+    public Vector2 boundarySize;
     
     void Awake(){
         transform.position = new Vector3(-35,0,-120);
@@ -30,8 +31,10 @@ public class CameraMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F11))
             ToggleFullscreen();
+        ClampCameraPosition();
     }
-
+    
+    
     public void FindAndFocusMainCity(){
         MainCity[] mainCities = GameObject.FindObjectsOfType<MainCity>();
 
@@ -103,5 +106,11 @@ public class CameraMovement : MonoBehaviour
 
         // 限制相機的 Z 座標在指定範圍內
         transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z, maxZoom, minZoom));
+    }
+    void ClampCameraPosition(){
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -boundarySize.x / 2f, boundarySize.x / 2f);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, -boundarySize.y / 2f, boundarySize.y / 2f);
+        transform.position = clampedPosition;
     }
 }

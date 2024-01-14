@@ -10,7 +10,7 @@ public class UI : MonoBehaviour
 {
     
     [SerializeField] Text cityCountText, fpsText;
-    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint;    
+    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint, pauseMask;    
     
     public Text rankingText;
     Dictionary<int, int> teamCityCount = new Dictionary<int, int>();
@@ -33,12 +33,14 @@ public class UI : MonoBehaviour
                 if(!isPause){
                     // 打開暫停選單
                     pauseMenu.SetActive(true);
+                    pauseMask.SetActive(true);
                     Time.timeScale = 0f;
                     isPause = true;
                     canSelect = false;
                 }else{
                     // 關閉暫停選單
                     pauseMenu.SetActive(false);
+                    pauseMask.SetActive(false);
                     Time.timeScale = 1f;
                     isPause = false;
                     canSelect = true;
@@ -47,14 +49,17 @@ public class UI : MonoBehaviour
         }
         // 檢查所有MainCity的teamID是否相同
         if (AreAllMainCitiesSameTeam()){
+            pauseMask.SetActive(true);
             winMenu.SetActive(true);
             SelectedHint.SetActive(false);
+            
             canSelect = false;
             isFinish = true;
             Time.timeScale = 0f;
         }
         if (!DoesCityWithTeamIDExist(0)){
             // 顯示loseMenu並暫停遊戲
+            pauseMask.SetActive(true);
             loseMenu.SetActive(true);
             SelectedHint.SetActive(false);
             canSelect = false;

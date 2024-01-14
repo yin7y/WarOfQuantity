@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
         canReload = true;
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
         Application.targetFrameRate = maxFPS; // 設定目標FPS
+        cityGenerator.GenerateCities(10);
     }
 
     void Update()
@@ -40,7 +41,7 @@ public class Menu : MonoBehaviour
         yield return new WaitForSeconds(1);
         for(int i = 0; i < mainCities.Length; i++)
             Destroy(mainCities[i].gameObject);
-        cityGenerator.GenerateCities();
+        cityGenerator.GenerateCities(10);
         canReload = true;
         yield break;
     }

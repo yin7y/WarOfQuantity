@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CityGenerator : MonoBehaviour
 {
@@ -17,17 +18,19 @@ public class CityGenerator : MonoBehaviour
         playingNum = Menu.playNum;
         if(playingNum == 0)
             playingNum = numberOfCities;
-        GenerateCities();
+        myCamera.boundarySize = new Vector2(mapRange*2, mapRange*2);
+        if(SceneManager.GetActiveScene().name == "Game")
+            GenerateCities(playingNum);
     }
     void Start(){
         if(!watchMode)
             myCamera.FindAndFocusMainCity();
     }
 
-    public void GenerateCities(){
+    public void GenerateCities(int _num){
         // 建立 Cities 物件
         GameObject citiesObject = new("MainCities");
-        int setCities = watchMode? playingNum+1 : playingNum;
+        int setCities = watchMode? _num+1 : _num;
         
         for (int i = watchMode? 1 : 0; i < setCities; i++){
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
