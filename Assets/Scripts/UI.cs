@@ -70,7 +70,7 @@ public class UI : MonoBehaviour
         Rank();
     }
     public void UpdateCityCount(int count){
-        cityCountText.text = "主城: " + count.ToString();
+        cityCountText.text = "主國: " + count.ToString();
     }
     void Rank(){
          // 重置 teamCityCount 字典
