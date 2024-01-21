@@ -5,7 +5,7 @@ public class CityGenerator : MonoBehaviour
 {
     int playingNum;
     public GameObject cityPrefab;
-    public int numberOfCities, mapRange;
+    public ushort numberOfCities, mapRange;
     public float cityMinDistance = 20f;
     public bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
@@ -15,8 +15,11 @@ public class CityGenerator : MonoBehaviour
     void Awake(){
         randomName = GetComponent<SectNameGenerator>();
         randomName.LoadPrefixes();
+        
+        mapRange = Menu.playMapRange;
         playingNum = Menu.playNum;
-        if(playingNum == 0)
+        
+        if(playingNum < 2)
             playingNum = numberOfCities;
         myCamera.boundarySize = new Vector2(mapRange*2, mapRange*2);
         if(SceneManager.GetActiveScene().name == "Game")

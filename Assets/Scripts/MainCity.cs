@@ -34,8 +34,7 @@ public class MainCity : MonoBehaviour
     void Update(){
         timer += Time.deltaTime;
         atkTimer += Time.deltaTime;
-        if(num < 0)
-            num += -num;
+        
         if(num < numMax){
             if(isAtking){
                 timer = 0;
@@ -47,12 +46,14 @@ public class MainCity : MonoBehaviour
             }else if (timer >= numCdTime){
                 num++;
                 timer = 0;
-            }            
+            }
+        }else if(num < 0){
+            num += -num;
         }else{
             num = numMax;
             timer = 0;
         }
-        if(atkTimer >= atkCdTime && (teamID != 0 || OP.autoMode)){  // 敵人AI
+        if(num >1 && atkTimer >= atkCdTime && (teamID != 0 || OP.autoMode)){  // 敵人AI
             AutoAttackAI();            
             atkCdTime = UnityEngine.Random.Range(1, 30);
             atkTimer = 0f;
@@ -66,39 +67,30 @@ public class MainCity : MonoBehaviour
     }
 
     public void SoldierGenerator(int count, GameObject target){
-        if(num >1)
-            StartCoroutine(GenerateSoldiers(count, target));
+        StartCoroutine(GenerateSoldiers(count, target));
     }
 
     IEnumerator GenerateSoldiers(int count, GameObject target){
-        // print(" " + gameObject.name + " >> 發兵 >> " + target.name);
         targetCity = target;
         setCount = count;
         if(gameObject.GetComponent<MainCity>().isAtking == false){
-            for (int i = 0; i < setCount; i++){                 
-                if(num > 1){
-                    // 生成士兵
-                    GameObject soldier = Instantiate(soldierPrefab, transform.position, Quaternion.identity);
-                    num--;
-                    soldier.name = "Soldier" + i;
-                    soldier.GetComponent<Soldier>().SetTeamID(teamID);
-                    // 將士兵設定為指定父物件的子物體
-                    soldier.transform.SetParent(soldiersParent);
-
-                    // 獲取士兵的 Soldier 腳本參考
-                    Soldier soldierScript = soldier.GetComponent<Soldier>();
-                    if (soldierScript != null)
-                    {
-                        soldierScript.MoveToDestination(target); // 移動士兵到指定的目的地
-                        isAtking = true;
-                    }
-                    target.GetComponent<MainCity>().isDefending = true; // 指定城正在被發兵
-                    
-                    yield return new WaitForSeconds(soldierCdTime);
-                }else{
-                    break;
-                }
+            target.GetComponent<MainCity>().isDefending = true; // 指定城正在被發兵
+            isAtking = true;
+            for (int i = 0; i < setCount; i++){
+                if(num <= 1) break;
+                // 生成士兵
+                GameObject soldier = Instantiate(soldierPrefab, transform.position, Quaternion.identity);
+                num--;
+                soldier.name = "Soldier" + i;
+                // 獲取士兵的 Soldier 腳本參考
+                Soldier soldierScript = soldier.GetComponent<Soldier>();
+                soldierScript.SetTeamID(teamID);
+                // 將士兵設定為指定父物件的子物體
+                soldier.transform.SetParent(soldiersParent);
                 
+                soldierScript.MoveToDestination(target); // 移動士兵到指定的目的地
+                
+                yield return new WaitForSeconds(soldierCdTime);
             }
             target.GetComponent<MainCity>().isDefending = false;
         }
@@ -114,17 +106,10 @@ public class MainCity : MonoBehaviour
                 enemyCities.Add(city);
             }
         }
-        
-        // 檢查是否有目標城市
-        if (targetCity == null){
-            // 從敵方城市中隨機選擇一個作為目標
-            if (enemyCities.Count > 0){
-                int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
-                targetCity = enemyCities[randomIndex].gameObject;
-            }
-        }
-        if (targetCity != null){
-            // 生成士兵
+        // 從敵方城市中隨機選擇一個作為目標
+        if (enemyCities.Count > 0){
+            int randomIndex = UnityEngine.Random.Range(0, enemyCities.Count);
+            targetCity = enemyCities[randomIndex].gameObject;
             SoldierGenerator(num - 1, targetCity);
         }
         targetCity = null;
