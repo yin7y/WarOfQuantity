@@ -34,7 +34,8 @@ public class MainCity : MonoBehaviour
     void Update(){
         timer += Time.deltaTime;
         atkTimer += Time.deltaTime;
-        
+        if(num < 0)
+            num += -num;
         if(num < numMax){
             if(isAtking){
                 timer = 0;
@@ -47,8 +48,6 @@ public class MainCity : MonoBehaviour
                 num++;
                 timer = 0;
             }
-        }else if(num < 0){
-            num += -num;
         }else{
             num = numMax;
             timer = 0;
