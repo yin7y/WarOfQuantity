@@ -1,2 +1,2 @@
 # WarOfQuantity
- 數量天子
+ 數量仙朝
