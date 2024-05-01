@@ -8,19 +8,19 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour, IPointerClickHandler
 {
-    byte maxFPS;
+    byte maxFPS, modeID;
     bool canReload;
     [SerializeField] MainCity[] mainCities;
     [SerializeField] CityGenerator cityGenerator;
     [SerializeField] float timeSpeed;
     
-    public static ushort playNum = 10;
+    public static ushort playNum = 10, landNum = 10;
     
     
-    [SerializeField] GameObject modePanel, cancelPanel;
+    [SerializeField] GameObject modePanel, cancelPanel, countryMode, landMode;
     GameObject currentActive;
     bool isModePanel;
-    public InputField inputNumText;    
+    public InputField inputNumText, inputNum2Text, inputLandNumText, mapRangeText;    
     public static ushort playMapRange = 100;
     
     
@@ -32,11 +32,14 @@ public class Menu : MonoBehaviour, IPointerClickHandler
         Application.targetFrameRate = maxFPS; // 設定目標FPS
         
         // Menu中的生成
-        cityGenerator.mapRange = 60;
+        cityGenerator.mapRange = 55;
         cityGenerator.GenerateCities(10);
         
         // 模式選擇中的初始設定
         inputNumText.text = playNum.ToShortString();
+        inputNum2Text.text = playNum.ToShortString();
+        inputLandNumText.text = "40";
+        mapRangeText.text = playMapRange.ToShortString();
     }
 
     void Update(){
@@ -46,10 +49,23 @@ public class Menu : MonoBehaviour, IPointerClickHandler
             StartCoroutine(ReloadBackGroundGame());
         }
     }
+    
     public void OnModeClick(){
         isModePanel = !isModePanel;
         modePanel.SetActive(isModePanel);
         currentActive = modePanel;
+    }
+    
+    public void OnCountryModeClick(){
+        countryMode.SetActive(true);
+        landMode.SetActive(false);
+        modeID = 0;
+    }
+
+    public void OnLandModeClick(){
+        countryMode.SetActive(false);
+        landMode.SetActive(true);
+        modeID = 1;
     }
     
     public void OnStartClick(){
@@ -57,32 +73,31 @@ public class Menu : MonoBehaviour, IPointerClickHandler
         SceneManager.LoadScene("Game");
     }
     public void OnModeStartClick(){
-        playNum = ushort.Parse(inputNumText.text);
-        if(playNum <= 10){
-            playMapRange = 60;
-        }else if(playNum <= 30){
-            playMapRange = 90;
-        }else if(playNum <= 50){
-            playMapRange = 120;
-        }else if(playNum <= 70){
-            playMapRange = 140;
-        }else if(playNum <= 90){
-            playMapRange = 150;
-        }else if(playNum <= 100){
-            playMapRange = 160;
+        playMapRange = ushort.Parse(mapRangeText.text);
+        switch(modeID){
+            case 0:
+                playNum = ushort.Parse(inputNumText.text);
+                SceneManager.LoadScene("Game");
+                break;
+            case 1:
+                playNum = ushort.Parse(inputNum2Text.text);                
+                landNum = ushort.Parse(inputLandNumText.text);
+                int allNum = playNum + landNum;
+                SceneManager.LoadScene("Game2");
+                break;
         }
         
-        SceneManager.LoadScene("Game");
     }
     public void ReadStringInput(){
         if(inputNumText.text != string.Empty)
             
             if(inputNumText.text.Length > 3){
                 inputNumText.text = "100";
-            }else if(float.Parse(inputNumText.text) < 2){
+            }else if(float.Parse(inputNumText.text) < 2 || float.Parse(inputNum2Text.text) < 2){
                 inputNumText.text = "2";
+                inputNum2Text.text = "2";
             }else if(float.Parse(inputNumText.text) > 100){
-                inputNumText.text = "100";
+                // inputNumText.text = "100";
             }
     }
     public void OnPointerClick(PointerEventData eventData)
@@ -115,9 +130,7 @@ public class Menu : MonoBehaviour, IPointerClickHandler
         mainCities = FindObjectsOfType<MainCity>();
 
         // 如果沒有MainCity，則返回false
-        if (mainCities.Length == 0){
-            return false;
-        }
+        if (mainCities.Length == 0) return false;
 
         // 獲取第一個MainCity的teamID
         int firstTeamID = mainCities[0].GetTeamID();

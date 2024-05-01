@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Soldier : MonoBehaviour
 {
-    private int teamID;
+    private ushort teamID;
     private GameObject destination;
     private float moveSpeed = 20f;
     public string belongCityName;
@@ -14,7 +14,6 @@ public class Soldier : MonoBehaviour
         belongCityName = GetComponentInParent<MainCity>().nameText.text;;
         mainCity = transform.parent.gameObject.GetComponentInParent<MainCity>();
         gameObject.GetComponent<SpriteRenderer>().color = mainCity.GetComponent<SpriteRenderer>().color;
-        // destination = mainCity.GetTargetCity(); 保留兵  隨時可更換目標型
     }
     void Update(){
         if (destination != null){
@@ -25,11 +24,11 @@ public class Soldier : MonoBehaviour
     }
     
     public void MoveToDestination(GameObject target) => destination = target;    
-    public void SetTeamID(int id) => teamID = id;    
+    public void SetTeamID(ushort id) => teamID = id;    
     public GameObject GetTarget(){
         return destination;
     }
-    public int GetTeamID(){
+    public ushort GetTeamID(){
         return teamID;
     }
 }

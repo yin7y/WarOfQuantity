@@ -8,26 +8,28 @@ using System.Linq;
 
 public class UI : MonoBehaviour
 {
-    
-    [SerializeField] Text cityCountText, fpsText;
-    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint, pauseMask;    
+    [SerializeField] Text myCityCountText, fpsText;
+    [SerializeField] GameObject winMenu, loseMenu, pauseMenu, SelectedHint, pauseMask, backGround;    
     
     public Text rankingText;
-    Dictionary<int, int> teamCityCount = new Dictionary<int, int>();
+    Dictionary<ushort, ushort> teamCityCount = new Dictionary<ushort, ushort>();
     
     WaitForSeconds waitTime = new WaitForSeconds(1f);
     short maxFPS = 1000; // 最大FPS
-    float fps;
+    float fps, timer;
     bool isPause, isFinish;
     public bool canSelect;
     private void Start()
     {
         Time.timeScale = 1f;
         canSelect = true;
+        backGround.transform.localScale = new Vector3(Menu.playMapRange * 10, Menu.playMapRange * 10);
         StartCoroutine(UpdateFPS());
         LimitFPS();
+        Rank();
     }
     void Update() {
+        timer += Time.deltaTime;
         if(!isFinish){
             if (Input.GetKeyDown(KeyCode.Escape)){
                 if(!isPause){
@@ -47,32 +49,25 @@ public class UI : MonoBehaviour
                 }
             }
         }
-        // 檢查所有MainCity的teamID是否相同
-        if (AreAllMainCitiesSameTeam()){
-            pauseMask.SetActive(true);
-            winMenu.SetActive(true);
-            SelectedHint.SetActive(false);
-            
-            canSelect = false;
-            isFinish = true;
-            Time.timeScale = 0f;
+        if(timer >= 1){
+            Judge();
+            Rank();
+            UpdateMyCityCount();
+            timer = 0f;
         }
-        if (!DoesCityWithTeamIDExist(0)){
-            // 顯示loseMenu並暫停遊戲
-            pauseMask.SetActive(true);
-            loseMenu.SetActive(true);
-            SelectedHint.SetActive(false);
-            canSelect = false;
-            isFinish = true;
-            Time.timeScale = 0f;
+        
+    }
+    public void UpdateMyCityCount(){
+        int countCities = 0;
+        MainCity[] cities = FindObjectsOfType<MainCity>();
+        foreach (MainCity city in cities){
+            if (city.GetTeamID() == 0){
+                countCities++;
+            }
         }
-        UpdateCityCount(CountAllCities());
-        Rank();
+        myCityCountText.text = "領土: " + countCities.ToString();
     }
-    public void UpdateCityCount(int count){
-        cityCountText.text = "主國: " + count.ToString();
-    }
-    void Rank(){
+    public void Rank(){
          // 重置 teamCityCount 字典
         teamCityCount.Clear();
 
@@ -80,8 +75,9 @@ public class UI : MonoBehaviour
         MainCity[] mainCities = FindObjectsOfType<MainCity>();
         // 計算每個 teamID 的城市數量
         foreach (MainCity city in mainCities){
-            int teamID = city.GetTeamID();
-
+            ushort teamID = city.GetTeamID();
+            
+            if(teamID == 500) continue;
             if (teamCityCount.ContainsKey(teamID)){
                 teamCityCount[teamID]++;
             }else{
@@ -90,7 +86,7 @@ public class UI : MonoBehaviour
         }
 
         // 根據城市數量進行排名
-        List<KeyValuePair<int, int>> sortedTeamCityCount = teamCityCount.ToList();
+        List<KeyValuePair<ushort, ushort>> sortedTeamCityCount = teamCityCount.ToList();
         sortedTeamCityCount.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
         // 更新 UI 文本元件
@@ -98,21 +94,21 @@ public class UI : MonoBehaviour
         if(sortedTeamCityCount.Count() > 10){
             for (int i = 0; i < 10; i++){
                 int teamID = sortedTeamCityCount[i].Key;
-                int cityCount = sortedTeamCityCount[i].Value;
+                ushort _cityCount = sortedTeamCityCount[i].Value;
                 // 獲取隊伍ID對應的城市名稱
                 string cityName = GetCityName(teamID);
                 
-                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), _cityCount, cityName);
                 rankingText += lineText;
             }
         }else{
             for (int i = 0; i < sortedTeamCityCount.Count(); i++){
                 int teamID = sortedTeamCityCount[i].Key;
-                int cityCount = sortedTeamCityCount[i].Value;
+                ushort _cityCount = sortedTeamCityCount[i].Value;
                 // 獲取隊伍ID對應的城市名稱
                 string cityName = GetCityName(teamID);
-                
-                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), cityCount, cityName);
+
+                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), _cityCount, cityName);
                 rankingText += lineText;
             }
         }
@@ -233,6 +229,29 @@ public class UI : MonoBehaviour
         QualitySettings.vSyncCount = 0; // 禁用垂直同步
         Application.targetFrameRate = maxFPS; // 設定目標FPS
     }
+    
+    public void Judge(){
+        // 檢查所有MainCity的teamID是否相同
+        if (AreAllMainCitiesSameTeam()){
+            pauseMask.SetActive(true);
+            winMenu.SetActive(true);
+            SelectedHint.SetActive(false);
+            
+            canSelect = false;
+            isFinish = true;
+            Time.timeScale = 0f;
+        }
+        if (!DoesCityWithTeamIDExist(0)){
+            // 顯示loseMenu並暫停遊戲
+            pauseMask.SetActive(true);
+            loseMenu.SetActive(true);
+            SelectedHint.SetActive(false);
+            canSelect = false;
+            isFinish = true;
+            Time.timeScale = 0f;
+        }
+    }
+    
     public void OnContinueBut(){
         Time.timeScale = 1f;
         isPause = false;

@@ -15,10 +15,10 @@ public class SelectionBoxScript : MonoBehaviour
     {
         // 初始化樣式
         selectionBoxStyle = new GUIStyle();
-        selectionBoxStyle.normal.background = MakeTexture(2, 2, new Color(0.1f, 0.1f, 0.1f, 0.2f));
+        selectionBoxStyle.normal.background = MakeTexture(2, 2, new Color(1f, 1f, 1f, 0.4f));
 
-        selectedObjectStyle = new GUIStyle();
-        selectedObjectStyle.normal.background = MakeTexture(2, 2, new Color(0f, 0.5f, 0f, 0.2f));
+        // selectedObjectStyle = new GUIStyle();
+        // selectedObjectStyle.normal.background = MakeTexture(2, 2, new Color(0f, 1f, 0f, 1f));
     }
 
     private void Update()
@@ -64,6 +64,7 @@ public class SelectionBoxScript : MonoBehaviour
             if (clickedObject != null && selectedObjects.Contains(clickedObject))
             {
                 selectedObjects.Remove(clickedObject);
+                clickedObject.GetComponent<MainCity>().selectedHint.SetActive(false);
             }
         }
         
@@ -80,8 +81,7 @@ public class SelectionBoxScript : MonoBehaviour
         // 繪製被選取物體的提示框
         foreach (GameObject obj in selectedObjects)
         {
-            Rect objectRect = GetScreenRect(GetObjectBounds(obj));
-            GUI.Box(objectRect, "", selectedObjectStyle);
+            obj.GetComponent<MainCity>().selectedHint.SetActive(true);
         }
     }
 
@@ -96,7 +96,7 @@ public class SelectionBoxScript : MonoBehaviour
             GameObject obj = colliders[i].gameObject;
 
             // 檢查是否已經選取過，避免重複添加
-            if (!selectedObjects.Contains(obj))
+            if (!selectedObjects.Contains(obj) &&  obj.GetComponent<MainCity>().GetTeamID() == 0)
             {
                 selectedObjects.Add(obj);
             }

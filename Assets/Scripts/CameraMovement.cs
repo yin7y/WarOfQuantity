@@ -18,6 +18,7 @@ public class CameraMovement : MonoBehaviour
     
     void Awake(){
         transform.position = new Vector3(-35,0,-120);
+        maxZoom = -Menu.playMapRange * 3 < -1000? -1000 : -Menu.playMapRange * 3;
     }
     
     void Update(){
@@ -26,11 +27,12 @@ public class CameraMovement : MonoBehaviour
                 FindAndFocusMainCity();
             HandleKeyboardMovement();
             HandleMouseDrag();
-            HandleEdgeScroll();
+            // HandleEdgeScroll();
             HandleZoom();
         }
         if (Input.GetKeyDown(KeyCode.F11))
             ToggleFullscreen();
+
         ClampCameraPosition();
     }
     
@@ -51,14 +53,15 @@ public class CameraMovement : MonoBehaviour
     void ToggleFullscreen(){
         isFullscreen = !isFullscreen;
         if (isFullscreen){
-            //获取设置当前屏幕分辩率 
+            // 獲取解析度
             Resolution[] resolutions = Screen.resolutions;
-            //设置当前分辨率 
+            // 設置當前解析度 
             Screen.SetResolution(resolutions[resolutions.Length - 1].width, resolutions[resolutions.Length - 1].height, true);
-            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+            Screen.fullScreenMode = FullScreenMode.Windowed;
         }
         else
-            Screen.fullScreenMode = FullScreenMode.Windowed;
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
+        
     }
     void HandleKeyboardMovement(){
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -105,6 +108,7 @@ public class CameraMovement : MonoBehaviour
         transform.position += zoomDirection * zoomSpeed;
 
         // 限制相機的 Z 座標在指定範圍內
+        
         transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z, maxZoom, minZoom));
     }
     void ClampCameraPosition(){
