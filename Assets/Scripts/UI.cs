@@ -88,29 +88,19 @@ public class UI : MonoBehaviour
         // 根據城市數量進行排名
         List<KeyValuePair<ushort, ushort>> sortedTeamCityCount = teamCityCount.ToList();
         sortedTeamCityCount.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
-
+        if (sortedTeamCityCount.Count > 10){
+            sortedTeamCityCount.RemoveRange(10, sortedTeamCityCount.Count - 10);
+        }
         // 更新 UI 文本元件
         string rankingText = string.Empty;
-        if(sortedTeamCityCount.Count() > 10){
-            for (int i = 0; i < 10; i++){
-                int teamID = sortedTeamCityCount[i].Key;
-                ushort _cityCount = sortedTeamCityCount[i].Value;
-                // 獲取隊伍ID對應的城市名稱
-                string cityName = GetCityName(teamID);
-                
-                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), _cityCount, cityName);
-                rankingText += lineText;
-            }
-        }else{
-            for (int i = 0; i < sortedTeamCityCount.Count(); i++){
-                int teamID = sortedTeamCityCount[i].Key;
-                ushort _cityCount = sortedTeamCityCount[i].Value;
-                // 獲取隊伍ID對應的城市名稱
-                string cityName = GetCityName(teamID);
-
-                string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), _cityCount, cityName);
-                rankingText += lineText;
-            }
+        for (int i = 0; i < 10; i++){
+            int teamID = sortedTeamCityCount[i].Key;
+            ushort _cityCount = sortedTeamCityCount[i].Value;
+            // 獲取隊伍ID對應的城市名稱
+            string cityName = GetCityName(teamID);
+            
+            string lineText = string.Format("<color=#{0}>{1,2}{2,12}</color>\n", GetColorHex(teamID), _cityCount, cityName);
+            rankingText += lineText;
         }
         // 顯示排名在 UI 文本元件上
         this.rankingText.text = rankingText;
