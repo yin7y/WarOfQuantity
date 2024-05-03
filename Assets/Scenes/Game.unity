@@ -1326,7 +1326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &695771727
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1636,8 +1636,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 574, y: -314}
-  m_SizeDelta: {x: 140, y: 100}
+  m_AnchoredPosition: {x: 650, y: -314}
+  m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &781257890
 MonoBehaviour:
@@ -1803,7 +1803,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u7E7C\u7E8C\u904A\u6232"
+  m_Text: "\u7E7C\u7E8C\u904A\u6232\n<size=30>ESC</size>\n"
 --- !u!222 &839734133
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2292,7 +2292,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u8FD4\u56DE"
+  m_Text: "\u8FD4\u56DE\u9078\u55AE"
 --- !u!222 &975246118
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3009,10 +3009,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 76101f670e91a7b449b503f186aa8da7, type: 3}
-    m_FontSize: 50
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 5
+    m_MinSize: 3
     m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -3317,8 +3317,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 727, y: -314}
-  m_SizeDelta: {x: 140, y: 100}
+  m_AnchoredPosition: {x: 825, y: -431}
+  m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1575296447
 MonoBehaviour:
@@ -3969,7 +3969,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2059394338}
-  - component: {fileID: 2059394337}
   - component: {fileID: 2059394339}
   - component: {fileID: 2059394340}
   - component: {fileID: 2059394341}
@@ -3982,19 +3981,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2059394337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2059394335}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce1d7e773b5c9134fa52f2483452f652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedObjects: []
 --- !u!4 &2059394338
 Transform:
   m_ObjectHideFlags: 0

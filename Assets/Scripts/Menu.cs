@@ -88,16 +88,20 @@ public class Menu : MonoBehaviour, IPointerClickHandler
         }
         
     }
-    public void ReadStringInput(){
-        if(inputNumText.text != string.Empty)
-            
-            if(inputNumText.text.Length > 3){
-                inputNumText.text = "100";
-            }else if(float.Parse(inputNumText.text) < 2 || float.Parse(inputNum2Text.text) < 2){
+    public void ReadStringInput(){            
+            if(inputNumText.text.Length > 3 || float.Parse(inputNumText.text) > 200){
+                inputNumText.text = "200";
+            }
+            if(float.Parse(inputNumText.text) < 2 || float.Parse(inputNum2Text.text) < 2){
                 inputNumText.text = "2";
                 inputNum2Text.text = "2";
-            }else if(float.Parse(inputNumText.text) > 100){
-                // inputNumText.text = "100";
+            }
+            if(float.Parse(inputNum2Text.text) + float.Parse(inputLandNumText.text) > 200){
+                inputNum2Text.text = "40";
+                inputLandNumText.text = "160";
+            }            
+            if(float.Parse(mapRangeText.text) > 300){
+                mapRangeText.text = "300";
             }
     }
     public void OnPointerClick(PointerEventData eventData)
