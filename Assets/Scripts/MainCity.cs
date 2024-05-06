@@ -25,8 +25,7 @@ public class MainCity : MonoBehaviour
     [SerializeField] UI ui;
     
     [SerializeField] Type type;
-    enum Type
-    {
+    enum Type{
         City,
         Land
     }
@@ -44,9 +43,7 @@ public class MainCity : MonoBehaviour
                 numCdTime = 0.4f;
                 soldierCdTime = 0.1f;
                 numMax = 100;
-                
                 break;
-            
         }
         
         
@@ -177,7 +174,9 @@ public class MainCity : MonoBehaviour
                         nameText.color = gameObject.GetComponent<SpriteRenderer>().color;
                         
                         teamID = soldier.GetTeamID();
-                    }                       
+                    }      
+                    if(teamID != 0)
+                        selectedHint.SetActive(false);                 
                 }                
                 Destroy(soldier.gameObject);
             }

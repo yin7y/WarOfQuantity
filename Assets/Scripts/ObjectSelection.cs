@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectSelection : MonoBehaviour
 {
     GameObject selectedObject, firstSelectedObject;   // 目前被選中的物體，原先選中的物體    MainCity sameCity;
-    [SerializeField] GameObject selectedHint;  // 選擇提示
+    public GameObject selectedHint;  // 選擇提示
     
     UI ui;
     SelectionState currentState = SelectionState.None;
@@ -95,7 +95,7 @@ public class ObjectSelection : MonoBehaviour
         currentState = SelectionState.None;        
     }
 
-    private Vector2 GetWorldMousePosition(){
+    Vector2 GetWorldMousePosition(){
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = -Camera.main.transform.position.z;
         return Camera.main.ScreenToWorldPoint(mousePos);

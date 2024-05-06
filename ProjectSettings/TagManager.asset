@@ -6,6 +6,7 @@ TagManager:
   tags:
   - City
   - Soldier
+  - PauseMask
   layers:
   - Default
   - TransparentFX

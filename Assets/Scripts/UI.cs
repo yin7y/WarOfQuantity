@@ -21,7 +21,7 @@ public class UI : MonoBehaviour
     public bool canSelect;
     private void Start()
     {
-        Time.timeScale = 1f;
+        // Time.timeScale = 1f;
         canSelect = true;
         backGround.transform.localScale = new Vector3(Menu.playMapRange * 10, Menu.playMapRange * 10);
         StartCoroutine(UpdateFPS());
@@ -132,30 +132,23 @@ public class UI : MonoBehaviour
         // 循環選擇顏色
         // return colors[index % colors.Length];
     }
-    string GetCityName(int teamID)
-    {
+    string GetCityName(int teamID){
         // 根據隊伍ID獲取城市名稱
         MainCity[] cities = FindObjectsOfType<MainCity>();
-        foreach (MainCity city in cities)
-        {
-            if (city.GetTeamID() == teamID)
-            {
+        foreach (MainCity city in cities){
+            if (city.GetTeamID() == teamID){
                 return city.nameText.text;
             }
         }
-
         return "Unknown City";
     }
     
     
-    bool DoesCityWithTeamIDExist(int teamID)
-    {
+    bool DoesCityWithTeamIDExist(int teamID){
         // 獲取所有城市的陣列
         MainCity[] cities = FindObjectsOfType<MainCity>();
-
         // 檢查每個城市的teamID是否等於指定的teamID
-        foreach (MainCity city in cities)
-        {
+        foreach (MainCity city in cities){
             if (city.GetTeamID() == teamID){
                 return true;
             }
@@ -172,18 +165,14 @@ public class UI : MonoBehaviour
     bool AreAllMainCitiesSameTeam(){
         // 獲取所有MainCity的陣列
         MainCity[] mainCities = FindObjectsOfType<MainCity>();
-
         // 如果沒有MainCity，則返回false
         if (mainCities.Length == 0){
             return false;
         }
-
         // 獲取第一個MainCity的teamID
         int firstTeamID = mainCities[0].GetTeamID();
-
         // 檢查其他MainCity的teamID是否與第一個MainCity相同
-        for (int i = 1; i < mainCities.Length; i++)
-        {
+        for (int i = 1; i < mainCities.Length; i++){
             if (mainCities[i].GetTeamID() != firstTeamID)
                 return false;
             if(mainCities[i].GetTeamID() != 0)
@@ -250,9 +239,11 @@ public class UI : MonoBehaviour
         loseMenu.SetActive(false);
     }
     public void OnMenuClick(){
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
     public void OnReStartClick(){
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void OnQuitClick(){

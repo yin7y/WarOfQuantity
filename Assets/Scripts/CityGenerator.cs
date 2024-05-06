@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class CityGenerator : MonoBehaviour
 {
-    ushort playingNum, landNum;
+    ushort playingNum = 5, landNum = 10;
     public GameObject cityPrefab, landPrefab;
-    public ushort numberOfCities, mapRange;
+    public ushort numberOfCities, mapRange = 50;
     public float cityMinDistance = 20f;
     public bool watchMode, autoNextMode;
     [SerializeField] CameraMovement myCamera;
@@ -29,6 +29,13 @@ public class CityGenerator : MonoBehaviour
             GenerateCities(playingNum);
         if(SceneManager.GetActiveScene().name == "Game2")
             GenerateCities(playingNum, landNum);
+        if(SceneManager.GetActiveScene().name == "Guide"){
+            mapRange = 40;
+            GenerateCities(2, 5);
+            // TODO
+            
+            
+        }
     }
     void Start(){
         if(!watchMode)
@@ -98,7 +105,7 @@ public class CityGenerator : MonoBehaviour
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
             if(!canGenerate) continue;
             
-            GameObject land = Instantiate(landPrefab, randomCityPosition, Quaternion.identity);
+            Instantiate(landPrefab, randomCityPosition, Quaternion.identity);
 
             
         }
