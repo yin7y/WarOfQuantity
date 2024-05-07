@@ -76,7 +76,6 @@
     <Compile Include="Assets\Scripts\Menu.cs" />
     <Compile Include="Assets\Scripts\ObjectSelection.cs" />
     <Compile Include="Assets\Scripts\GameTimer.cs" />
-    <Compile Include="Assets\Scripts\EventCenter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

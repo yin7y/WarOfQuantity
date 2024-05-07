@@ -13,16 +13,13 @@ public class Menu : MonoBehaviour, IPointerClickHandler
     [SerializeField] MainCity[] mainCities;
     [SerializeField] CityGenerator cityGenerator;
     [SerializeField] float timeSpeed;
-    
     public static ushort playNum = 10, landNum = 10;
-    
     
     [SerializeField] GameObject modePanel, cancelPanel, countryMode, landMode;
     GameObject currentActive;
     bool isModePanel;
     public InputField inputNumText, inputNum2Text, inputLandNumText, mapRangeText;    
     public static ushort playMapRange = 100;
-    
     
     void Start(){
         timeSpeed = 1f;
@@ -86,7 +83,9 @@ public class Menu : MonoBehaviour, IPointerClickHandler
                 SceneManager.LoadScene("Game2");
                 break;
         }
-        
+    }
+    public void OnGuideClick(){
+        SceneManager.LoadScene("Guide");
     }
     public void ReadStringInput(){            
             if(inputNumText.text.Length > 3 || float.Parse(inputNumText.text) > 200){
@@ -132,24 +131,18 @@ public class Menu : MonoBehaviour, IPointerClickHandler
     bool AreAllMainCitiesSameTeam(){
         // 獲取所有MainCity的陣列
         mainCities = FindObjectsOfType<MainCity>();
-
         // 如果沒有MainCity，則返回false
         if (mainCities.Length == 0) return false;
-
         // 獲取第一個MainCity的teamID
         int firstTeamID = mainCities[0].GetTeamID();
-
         // 檢查其他MainCity的teamID是否與第一個MainCity相同
-        for (int i = 1; i < mainCities.Length; i++)
-        {
+        for (int i = 1; i < mainCities.Length; i++){
             if (mainCities[i].GetTeamID() != firstTeamID)
                 return false;
-            if(mainCities[i].GetComponentInChildren<Soldier>() != null){
+            if(mainCities[i].GetComponentInChildren<Soldier>() != null)
                 if(mainCities[i].GetComponentInChildren<Soldier>().GetTeamID() != firstTeamID)
                     return false;
-            }
         }
         return true;
     }
-
 }

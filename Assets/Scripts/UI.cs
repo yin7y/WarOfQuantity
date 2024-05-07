@@ -142,8 +142,6 @@ public class UI : MonoBehaviour
         }
         return "Unknown City";
     }
-    
-    
     bool DoesCityWithTeamIDExist(int teamID){
         // 獲取所有城市的陣列
         MainCity[] cities = FindObjectsOfType<MainCity>();

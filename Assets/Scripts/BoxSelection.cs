@@ -93,11 +93,10 @@ public class BoxSelection : MonoBehaviour
                     myCityList.Add(selectCity); // 將選中的土地加入一個列表
                     selectCity.selectedHint.SetActive(true);
                     GetComponent<ObjectSelection>().selectedHint.SetActive(true);
+                    canAttack = true;
                 }
             }
         }
-        
-        canAttack = true;
     }
 
     public Material GLRectMat;//绘图的材质&#xff0c;在Inspector中设置

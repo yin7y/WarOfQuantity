@@ -12,10 +12,9 @@ public class MainCity : MonoBehaviour
     [SerializeField] int num, numMax;
     [SerializeField] ushort teamID;
     public float numCdTime, soldierCdTime, atkCdTime;
-    public bool isDefending;
+    public bool isDefending, isAtking;
     public GameObject selectedHint;
     int setCount;
-    bool isAtking;
     
     [SerializeField] float timer, atkTimer;
     public TextMesh nameText;
