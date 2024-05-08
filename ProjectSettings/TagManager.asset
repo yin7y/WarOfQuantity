@@ -7,6 +7,8 @@ TagManager:
   - City
   - Soldier
   - PauseMask
+  - AudioManager
+  - MusicManager
   layers:
   - Default
   - TransparentFX

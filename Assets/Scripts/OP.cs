@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OP : MonoBehaviour
 {
-    public static bool autoMode, rigMode;
+    public static bool autoMode, rigMode, isMusic = true;
     [SerializeField] GameObject AutoHint;
     void Start(){
         autoMode = false;

@@ -15,6 +15,7 @@ public class CityGenerator : MonoBehaviour
     bool canGenerate;
 
     void Awake(){
+        myCamera = GameObject.FindWithTag("MainCamera").GetComponent<CameraMovement>();
         randomName = GetComponent<SectNameGenerator>();
         randomName.LoadPrefixes();
         
@@ -32,9 +33,6 @@ public class CityGenerator : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "Guide"){
             mapRange = 40;
             GenerateCities(2, 5);
-            // TODO
-            
-            
         }
     }
     void Start(){

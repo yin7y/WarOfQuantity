@@ -45,7 +45,6 @@ public class MainCity : MonoBehaviour
                 break;
         }
         
-        
         numText.text = num.ToString();
         isAtking = false;
         isDefending = false;

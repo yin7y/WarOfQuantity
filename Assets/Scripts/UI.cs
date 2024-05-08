@@ -189,14 +189,8 @@ public class UI : MonoBehaviour
         while (true){
             // 計算FPS
             fps = 1f / Time.deltaTime;
-
-            // 檢查是否超過最大FPS
-            // if (fps > maxFPS)
-            //     fps = maxFPS;
-
             // 更新顯示的FPS文本
             fpsText.text = "FPS: " + Mathf.Round(fps).ToString();
-
             // 等待一秒
             yield return waitTime;
         }
