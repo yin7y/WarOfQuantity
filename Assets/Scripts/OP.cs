@@ -15,10 +15,11 @@ public class OP : MonoBehaviour
             autoMode = !autoMode;
             AutoHint.SetActive(autoMode);
             ShowConsole("自動模式", autoMode);
-        }else if(Input.GetKeyDown(KeyCode.O)){
-            rigMode = !rigMode;
-            ShowConsole("操縱模式", rigMode);
         }
+        // else if(Input.GetKeyDown(KeyCode.O)){ // 作弊按鍵
+        //     rigMode = !rigMode;
+        //     ShowConsole("操縱模式", rigMode);
+        // }
     }
     void ShowConsole(string _text, bool _switch){
         if(_switch)
