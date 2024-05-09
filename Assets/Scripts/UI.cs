@@ -206,9 +206,12 @@ public class UI : MonoBehaviour
             pauseMask.SetActive(true);
             winMenu.SetActive(true);
             SelectedHint.SetActive(false);
-            
             canSelect = false;
             isFinish = true;
+            if(OP.isMusic){
+                AudioManager audioManager = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+                audioManager.PlayAudio(0);
+            }
             Time.timeScale = 0f;
         }
         if (!DoesCityWithTeamIDExist(0)){

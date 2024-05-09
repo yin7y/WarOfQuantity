@@ -15,6 +15,6 @@ public class AudioManager : MonoBehaviour
             0 => completeSound,
             _ => throw new System.NotImplementedException()
         };
-        audioSource.PlayOneShot(audioClip);
+        audioSource.PlayOneShot(audioClip, 0.3f);
     }
 }

@@ -19,7 +19,7 @@ public class Menu : MonoBehaviour, IPointerClickHandler
     GameObject currentActive;
     bool isModePanel;
     public InputField inputNumText, inputNum2Text, inputLandNumText, mapRangeText;    
-    public static ushort playMapRange = 100;
+    public static ushort playMapRange = 120;
     
     void Start(){
         timeSpeed = 1f;

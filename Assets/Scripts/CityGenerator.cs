@@ -43,6 +43,7 @@ public class CityGenerator : MonoBehaviour
     public void GenerateCities(int _num){
         // 建立 Cities 物件
         GameObject citiesObject = new("MainCities");
+        
         int setCities = watchMode? _num+1 : _num;
         
         for (ushort i = (ushort)(watchMode ? 1 : 0); i < setCities; i++){
@@ -73,7 +74,8 @@ public class CityGenerator : MonoBehaviour
     public void GenerateCities(int _num, int _landnum){
         // 建立 Cities 物件
         GameObject citiesObject = new("MainCities");
-        int setCities = watchMode? _num+1 : _num;
+        GameObject landsObject = new("Lands");
+        int setCities = watchMode? _num+1 : _num;   // Menu
         
         for (int i = watchMode? 1 : 0; i < setCities; i++){
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
@@ -84,18 +86,14 @@ public class CityGenerator : MonoBehaviour
             // 分配隊伍 teamID 給城市
             ushort teamID = (ushort)((i == 0) ? 0 : i); // 玩家陣營 teamID 為 0，其他城市隨機分配 1 到 3 之間的 teamID
             city.GetComponent<MainCity>().SetTeamID(teamID);
-
             // 分配隨機顏色給城市
             Color randomColor = UnityEngine.Random.ColorHSV(0f, 1f, 0.4f, 1f, 0.4f, 1f); // 控制亮色範圍
             city.GetComponent<SpriteRenderer>().color = randomColor;
-
             // 將城市設定為 Cities 物件的子物件
-            city.transform.SetParent(citiesObject.transform);
-            
+            city.transform.SetParent(citiesObject.transform);            
             // 隨機生成城市名稱
             city.GetComponent<MainCity>().nameText.text = randomName.GenerateRandomSectName();
             city.GetComponent<MainCity>().nameText.color = randomColor;
-            
             // 重新命名城市物件
             city.name = "MainCity" + teamID;
         }
@@ -103,9 +101,9 @@ public class CityGenerator : MonoBehaviour
             Vector3 randomCityPosition = GetRandomPosition(cityMinDistance);
             if(!canGenerate) continue;
             
-            Instantiate(landPrefab, randomCityPosition, Quaternion.identity);
-
-            
+           GameObject land = Instantiate(landPrefab, randomCityPosition, Quaternion.identity);
+           land.transform.SetParent(landsObject.transform);
+           land.name = "Land" + i;
         }
     }
     Vector3 GetRandomPosition(float minDistance){

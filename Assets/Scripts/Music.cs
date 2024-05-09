@@ -11,6 +11,7 @@ public class Music : MonoBehaviour
     public GameObject musicEnObj, musicDisObj;
     void Start(){
         musicSource = GetComponent<AudioSource>();
+        musicSource.volume = 0.1f;
         musicSource.loop = true;  // 設置循環播放
         if(SceneManager.GetActiveScene().name == "Menu" && OP.isMusic)
             PlayMusic(0);
@@ -50,8 +51,8 @@ public class Music : MonoBehaviour
         if(currMusic == null){
             if(SceneManager.GetActiveScene().name == "Menu" && OP.isMusic)
                 PlayMusic(0);
-            else if(OP.isMusic)
-                PlayMusic();
+        else if(OP.isMusic)
+            PlayMusic();
         }
         if(OP.isMusic)
             musicSource.Play();

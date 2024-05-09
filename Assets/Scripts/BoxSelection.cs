@@ -97,8 +97,10 @@ public class BoxSelection : MonoBehaviour
                 }
             }
         }
-        AudioManager audioManager = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
-        audioManager.PlayAudio(0);
+        if(OP.isMusic){
+            AudioManager audioManager = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
+            audioManager.PlayAudio(0);
+        }
     }
 
     public Material GLRectMat;//绘图的材质&#xff0c;在Inspector中设置
